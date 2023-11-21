@@ -1,0 +1,90 @@
+#root {
+  max-width: 100vw;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #FF914D);
+}
+
+.navbar {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.nav-link {
+  color: inherit;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  margin-right: 10px;
+}
+
+.nav-link:hover {
+  background-color: #fff;
+  color: #000;
+}
+
+.active-link {
+  background-color: #fff;
+  color: #000;
+}
+
+.Login-page {
+  justify-content: center;
+  height: fit-content;
+  width: 100vw;
+}
+
+.App-header {
+  position: sticky;
+}
+
+.app.light {
+  background-color: #fff;
+  color: #242424;
+}
+
+.app.light button {
+  color: #242424;
+}
+
+.app.light .navbar a {
+  color: #fff;
+}
+
+.app.light .navbar a:hover {
+  color:  #242424;
+}
+
+.app.light .navbar .active-link {
+  color: #fff;
+}
+
+.app.light .Login-page {
+  color: #242424;
+}
+
+.app.dark {
+  background-color: #242424;
+  color: #fff;
+}
+
+.app.light .text-field {
+  color: black;
+}
+
+.app.dark .text-field {
+  color: white;
+}
