@@ -1,35 +1,54 @@
 import { useEffect } from "react";
 import { Button, Container, Typography, Box, Stack } from "@mui/material";
 
-
 import { createClient } from "@supabase/supabase-js";
 import { useNavigate } from "react-router-dom";
-import { SUPABASE_URL, SUPABASE_API } from "../assets/api";
+
 import logo from "../assets/Devcast-orange.png";
 
-import supabase from "./Login"
 
+
+import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
+
+
+
+
+export const supabase = createClient(
+  SUPABASE_URL,
+  SUPABASE_API)
+  
 
 export default function Success(props) {
   const navigate = useNavigate();
   const { user, setUser } = props;
 
-    useEffect(() => {
-      async function getUserData() {
-        await supabase.auth.getUser().then((value) => {
-          if(value.data?.user) {
-            setUser(value.data.user);
-          }
-        }) 
+  useEffect(() => {
+    async function getUserData() {
+      try {
+        const { data, error } = await supabase.auth.getUser();
+        if (data?.user) {
+          setUser(data.user);
+          console.log("User data:", data.user);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
       }
-      getUserData();
-    }, []);
-
-    async function logout() {
-      const { error } =  await supabase.auth.signOut();
-      navigate("/login");                                                                                                  
     }
 
+    getUserData();
+  }, []); // Removed the extra closing bracket and moved it here
+
+  async function logout() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error during logout:", error);
+      }
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  }
 
   return (
     <Box
@@ -46,7 +65,7 @@ export default function Success(props) {
           color="primary"
           gutterBottom
         >
-         welcome, {user.email}
+          welcome, {user.email}
         </Typography>
 
         <img
@@ -56,7 +75,12 @@ export default function Success(props) {
           style={{ maxWidth: "100%", height: "auto" }}
         />
 
-        <Stack sx={{ pt: 4 }} direction="row" spacing={2} justifyContent="center">
+        <Stack
+          sx={{ pt: 4 }}
+          direction="row"
+          spacing={2}
+          justifyContent="center"
+        >
           <Button variant="contained" onClick={() => logout()}>
             Logout
           </Button>

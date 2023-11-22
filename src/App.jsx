@@ -13,17 +13,14 @@ import ErrorPage from "./pages/ErrorPage";
 import Success from "./pages/Success";
 
 export default function App() {
-  const [value, setValue] = useState(0);
   const [mode, setMode] = useState("dark");
-  const [user, setUser] = useState({}); // Corrected this line
+  const [user, setUser] = useState({});
+  const [podcastData, setPodcastData] = useState();
+
   const navigate = useNavigate();
 
   const toggleMode = () => {
-    if (mode === "light") {
-      setMode("dark");
-    } else {
-      setMode("light");
-    }
+    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
   };
 
   useEffect(() => {
@@ -51,9 +48,9 @@ export default function App() {
             </IconButton>
 
             <NavLink
-              to="/"
+              to="/home"
               className="nav-link"
-              activeclassname="active-link" // Corrected this line
+              activeclassname="active-link"
               exact={true}
             >
               Home
@@ -61,7 +58,7 @@ export default function App() {
             <NavLink
               to="/login"
               className="nav-link"
-              activeclassname="active-link" // Corrected this line
+              activeclassname="active-link"
               exact={true}
             >
               Login
@@ -73,14 +70,10 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route
-            path="/login"
-            element={<Login user={user} setUser={setUser} />}
-          />
+          <Route path="/login" element={<Login user={user} setUser={setUser} />} />
           <Route path="/success" element={<Success user={user} />} />
-          <Route path="/home" element={<Home user={user} />} />
-          <Route path="/landing" element={<Landing />} />
-          <Route path="*" element={<ErrorPage />} />
+          <Route path="/home" element={<Home user={user} podcastData={podcastData} setPodcastData={setPodcastData} />} />
+          <Route path="*" element={<ErrorPage />} /> 
         </Routes>
       </main>
     </div>
