@@ -2,19 +2,23 @@ import { useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import "../styles/App.css";
 import "../styles/index.css";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Card, CardContent, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Modal from '@mui/material/Modal';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import Modal from "@mui/material/Modal";
+import PropTypes from "prop-types";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import { styled } from "@mui/material/styles";
-import BasicModal from "../components/modal";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Search from "../components/search";
-import getUserData from "../components/getUserData.js.JS";
+import getUserData from "../components/getUserData.js";
 
-// Add PropTypes for better documentation
 Home.propTypes = {
   podcastData: PropTypes.array,
   user: PropTypes.object,
@@ -31,20 +35,22 @@ const HtmlTooltip = styled(({ className, ...props }) => (
     maxWidth: 450,
     fontSize: theme.typography.pxToRem(12),
     border: "1px solid #dadde9",
+    borderRadius: "20px",
   },
 }));
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "100vh",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  color: 'black',
+  color: "black",
+  borderRadius: "50px",
 };
 
 function CustomTabPanel(props) {
@@ -74,7 +80,13 @@ export default function Home(props) {
   const [error, setError] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-  const [value, setValue] = useState(0); // Initialize value state
+  const [value, setValue] = useState(0);
+  const [episode, setEpisode] = useState(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const handleModalChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   useEffect(() => {
     getUserData(setUser);
@@ -105,41 +117,57 @@ export default function Home(props) {
   const handlePodcastClick = (pod) => {
     console.log("Podcast clicked:", pod);
     fetchPodcastData(pod.id);
-    handleOpen(true);
+    handleOpen();
   };
 
   const fetchPodcastData = (id) => {
+    setLoading(true);
     fetch(`https://podcast-api.netlify.app/id/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setModalData(data);
         console.log(data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching podcast data:", error);
+        setLoading(false);
       });
   };
 
   const a11yProps = (index) => ({
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   });
-
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    // Ensure newValue is within the valid range of tab indices
+    setValue((prevValue) => Math.min(Math.max(newValue, 0), modalData.seasons.length - 1));
   };
+  
 
   return (
     <div>
       <h1>Home</h1>
       {user ? (
-        <div>
-          <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "secondary", justifyContent: "center", alignItems: "center" }}>
+        <div className="home">
+          <Box
+            sx={{
+              flexGrow: 1,
+              p: 3,
+              backgroundColor: "secondary",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <h2>Welcome, {user.user_metadata.full_name}!</h2>
-            <img src={user.user_metadata.avatar_url} alt="Avatar" style={{ borderRadius: "50%", maxWidth: "100%", height: "auto" }} />
+            <img
+              src={user.user_metadata.avatar_url}
+              alt="Avatar"
+              style={{ borderRadius: "50%", maxWidth: "100%", height: "auto" }}
+            />
           </Box>
-         
-          <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#f5f5f9", justifyContent: "center", alignItems: "center" }}>
+
+          <Box className="search-box">
             <Search
               podcastData={podcastData}
               setPodcastData={setPodcastData}
@@ -149,12 +177,23 @@ export default function Home(props) {
           </Box>
 
           {error ? (
-            <p>{error}</p>
+            <Typography>{error}</Typography>
           ) : (
             <>
               <Grid container spacing={5}>
                 {podcastData?.map((pod) => (
-                  <Grid item xs={8} sm={6} md={2} key={pod.id} sx={{ marginTop: 5, justifyContent: "center", alignItems: "center" }}>
+                  <Grid
+                    item
+                    xs={8}
+                    sm={6}
+                    md={2}
+                    key={pod.id}
+                    sx={{
+                      marginTop: 2, // Adjust the margin value as per your preference
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
                     <HtmlTooltip
                       title={
                         <Typography variant="body2" color="text.secondary">
@@ -224,42 +263,97 @@ export default function Home(props) {
                     onClose={handleClose}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
+                    sx={{ overflow: "auto", width: "100%", height: "10s0%" }}
                   >
-                    <Box sx={style}>
-                      {modalData.image && (
-                        <img style={{ maxWidth: "50%", height: "auto" }} src={modalData.image} alt={modalData.title} />
-                      )}
-                      <Typography id="modal-modal-title" variant="h6" component="h2">
-                        {modalData.title}
-                      </Typography>
-                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                        {modalData.description}
-                      </Typography>
-                      {modalData.seasons && modalData.seasons.map((season, seasonIndex) => (
-                        <div key={seasonIndex}>
-                          <Card index={seasonIndex}>
-                            {season.episodes.map((episode, episodeIndex) => (
-                              <Chip key={episodeIndex}>
-                                {episode.title}
-                              </Chip>
+                    {loading ? (
+                      <div>Loading.....</div>
+                    ) : (
+                      <Box sx={style}>
+                        <Container
+                          sx={{
+                            position: "relative",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                              position: "absolute",
+                              right: 8,
+                              top: 8,
+                              color: (theme) => theme.palette.grey[500],
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          {modalData.image && (
+                            <img
+                              style={{ maxWidth: "250px", maxHeight: "250px" }}
+                              src={modalData.image}
+                              alt={modalData.title}
+                            />
+                          )}
+                          <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                            sx={{ m: 2 }}
+                          >
+                            {modalData.title}
+                          </Typography>
+                          <Typography
+                            id="modal-modal-description"
+                            sx={{ mt: 1 }}
+                          >
+                            {modalData.description}
+                          </Typography>
+                          <Tabs
+                            value={value}
+                            onChange={handleChange}
+                            variant="scrollable"
+                            scrollButtons="auto"
+                            sx={{ maxWidth: "100%" }}
+                          >
+                            {modalData.seasons.map((season, index) => (
+                              <Tab
+                                key={index}
+                                label={`Season ${index + 1}`}
+                                {...a11yProps(index)}
+                              >
+                                <CustomTabPanel value={value} index={index}>
+                                  {season.episodes.map((episode, eIndex) => (
+                                   <Accordion
+                                   key={`${season.id}-${episode.id}`}
+                                   expanded={expanded === `panel-${index}-${eIndex}`}
+                                   onChange={handleModalChange(`panel-${index}-${eIndex}`)}
+                                 >
+                                      <AccordionSummary
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls={`panel-${index}-${eIndex}-content`}
+                                        id={`panel-${index}-${eIndex}-header`}
+                                      >
+                                        {/* Render episode summary */}
+                                      </AccordionSummary>
+                                      <AccordionDetails>
+                                        {episode.description}
+                                      </AccordionDetails>
+                                    </Accordion>
+                                  ))}
+                                </CustomTabPanel>
+                              </Tab>
                             ))}
-                          </Card>
-                        </div>
-                      ))}
-                      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-                          {modalData.seasons.map((season, index) => (
-                            <div key={index}>
-                              <Tab label={`Season ${index + 1}`} {...a11yProps(index)} />
-                            </div>
-                          ))}
-                        </Tabs>
+                          </Tabs>
+                          
+                        </Container>
                       </Box>
-                    </Box>
+                    )}
                   </Modal>
                 )}
               </div>
-              <BasicModal modalData={modalData} setModalData={setModalData} modalOpen={modalOpen} setModalOpen={setModalOpen} />
             </>
           )}
         </div>

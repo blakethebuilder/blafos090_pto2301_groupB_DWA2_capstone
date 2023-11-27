@@ -6,23 +6,19 @@ import { ThemeSupa } from '@supabase/auth-ui-shared';
 
 import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
 
-export const supabase = createClient(
-SUPABASE_URL,
-SUPABASE_API)
-
-
+export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
 
 export default function Login(props) {
-  const { setUser } = props
+  const { setUser } = props;
   const navigate = useNavigate();
+
   useEffect(() => {
     const handleAuthStateChange = (event, session) => {
-      console.log('Auth state changed:', event, session);
+      console.log('LOGIN log Auth state changed:', event, session);
 
       if (event === 'SIGNED_IN') {
-        navigate('/success');
         setUser(session.user);
-        
+        navigate('/success');
         console.log('User signed in');
       } else if (event === 'SIGNED_OUT') {
         navigate('/login');
@@ -35,7 +31,6 @@ export default function Login(props) {
 
     // Clean up all auth state change listeners when the component unmounts
     return () => {
-      // This removes all listeners associated with onAuthStateChange
       supabase.auth.onAuthStateChange(null);
     };
   }, []);
@@ -44,13 +39,15 @@ export default function Login(props) {
     <div>
       <Auth
         supabaseClient={supabase}
-        providers={['discord']}
+        providers={['discord', 'google']}
         appearance={{ theme: ThemeSupa }}
         theme="dark"
         socialLayout="horizontal"
         socialButtonSize="xlarge"
       />
-      <button onClick={() => navigate('/success')}> Go to Success</button>
+      <button onClick={() => navigate('/success')} aria-label="Go to Success">
+        Go to Success
+      </button>
     </div>
   );
 }

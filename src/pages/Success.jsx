@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/Devcast-orange.png";
 
-import getUserData from "../components/getUserData.js.JS";
+import getUserData from "../components/getUserData.js";
 
 
 

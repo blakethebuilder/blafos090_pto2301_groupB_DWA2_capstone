@@ -37,7 +37,7 @@ export default function App() {
 
 
             {user ? (
-  <NavLink to="/home" className="nav-link" activeClassName="active-link" exact={true}>
+  <NavLink to="/home" className="nav-link" activeclassname="active-link" exact={true}>
     Home
   </NavLink>
 ) : null}
@@ -45,9 +45,7 @@ export default function App() {
             <NavLink to="/login" className="nav-link" activeclassname="active-link" exact={true}>
               Login
             </NavLink>
-            <IconButton onClick={toggleMode} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
-            <IconButton key="Logout">Logout</IconButton>
-            </IconButton>
+
 
           </Toolbar>
         </AppBar>
