@@ -2,17 +2,25 @@ import { useEffect, useState } from "react";
 import Chip from "@mui/material/Chip";
 import "../styles/App.css";
 import "../styles/index.css";
-import { SupabaseClient } from "@supabase/supabase-js";
-
-import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
+import Modal from '@mui/material/Modal';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import { styled } from "@mui/material/styles";
-
 import BasicModal from "../components/modal";
-
 import Search from "../components/search";
+import getUserData from "../components/getUserData.js.JS";
+
+// Add PropTypes for better documentation
+Home.propTypes = {
+  podcastData: PropTypes.array,
+  user: PropTypes.object,
+  setPodcastData: PropTypes.func,
+  setUser: PropTypes.func,
+};
 
 const HtmlTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -26,62 +34,127 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+  color: 'black',
+};
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+
 export default function Home(props) {
-  const { podcastData, user, setPodcastData } = props;
+  const { podcastData, user, setPodcastData, setUser } = props;
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
+  const [value, setValue] = useState(0); // Initialize value state
 
   useEffect(() => {
-    // Check Supabase authentication state here and update setUser accordingly
-  }, []); // Dependency array depends on how you handle authentication state in your app
+    getUserData(setUser);
+  }, []);
 
   useEffect(() => {
-    fetch("https://podcast-api.netlify.app/shows")
-      .then((res) => res.json())
-      .then((data) => {
-        setPodcastData(data);
-        console.log(data); // Log the updated state
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching podcast data:", error);
-        setError("Error fetching podcast data. Please try again later.");
-        setLoading(false);
-      });
+    try {
+      fetch("https://podcast-api.netlify.app/shows")
+        .then((res) => res.json())
+        .then((data) => {
+          setPodcastData(data);
+          console.log(data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching podcast data:", error);
+          setError("Error fetching podcast data. Please try again later.");
+          setLoading(false);
+        });
+    } catch (error) {
+      console.error("Unexpected error:", error);
+    }
   }, [setPodcastData]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>{error}</p>;
-  }
+  const handleOpen = () => setModalOpen(true);
+  const handleClose = () => setModalOpen(false);
 
   const handlePodcastClick = (pod) => {
     console.log("Podcast clicked:", pod);
-    // Handle podcast click logic he
+    fetchPodcastData(pod.id);
+    handleOpen(true);
+  };
+
+  const fetchPodcastData = (id) => {
+    fetch(`https://podcast-api.netlify.app/id/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setModalData(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching podcast data:", error);
+      });
+  };
+
+  const a11yProps = (index) => ({
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  });
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
-    <div sx={{ flexGrow: 1, p: 3, backgroundColor: "#f5f5f9", justifyContent: "center", alignItems: "center" }}>
+    <div>
       <h1>Home</h1>
       {user ? (
         <div>
-          <p>Welcome,{user.email} !</p>
-          <Search
-            podcastData={podcastData}
-            setPodcastData={setPodcastData}
-            setLoading={setLoading}
-            loading={loading}
-          />
+          <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "secondary", justifyContent: "center", alignItems: "center" }}>
+            <h2>Welcome, {user.user_metadata.full_name}!</h2>
+            <img src={user.user_metadata.avatar_url} alt="Avatar" style={{ borderRadius: "50%", maxWidth: "100%", height: "auto" }} />
+          </Box>
+         
+          <Box sx={{ flexGrow: 1, p: 3, backgroundColor: "#f5f5f9", justifyContent: "center", alignItems: "center" }}>
+            <Search
+              podcastData={podcastData}
+              setPodcastData={setPodcastData}
+              setLoading={setLoading}
+              loading={loading}
+            />
+          </Box>
+
           {error ? (
             <p>{error}</p>
           ) : (
             <>
-              <Grid container spacing={5} >
+              <Grid container spacing={5}>
                 {podcastData?.map((pod) => (
-                  <Grid item xs={2} sm={3} md={2} key={pod.id} sx={{ marginTop: 5 }}>
+                  <Grid item xs={8} sm={6} md={2} key={pod.id} sx={{ marginTop: 5, justifyContent: "center", alignItems: "center" }}>
                     <HtmlTooltip
                       title={
                         <Typography variant="body2" color="text.secondary">
@@ -144,7 +217,49 @@ export default function Home(props) {
                   </Grid>
                 ))}
               </Grid>
-              <BasicModal />
+              <div>
+                {podcastData && modalData && (
+                  <Modal
+                    open={modalOpen}
+                    onClose={handleClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                  >
+                    <Box sx={style}>
+                      {modalData.image && (
+                        <img style={{ maxWidth: "50%", height: "auto" }} src={modalData.image} alt={modalData.title} />
+                      )}
+                      <Typography id="modal-modal-title" variant="h6" component="h2">
+                        {modalData.title}
+                      </Typography>
+                      <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        {modalData.description}
+                      </Typography>
+                      {modalData.seasons && modalData.seasons.map((season, seasonIndex) => (
+                        <div key={seasonIndex}>
+                          <Card index={seasonIndex}>
+                            {season.episodes.map((episode, episodeIndex) => (
+                              <Chip key={episodeIndex}>
+                                {episode.title}
+                              </Chip>
+                            ))}
+                          </Card>
+                        </div>
+                      ))}
+                      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                          {modalData.seasons.map((season, index) => (
+                            <div key={index}>
+                              <Tab label={`Season ${index + 1}`} {...a11yProps(index)} />
+                            </div>
+                          ))}
+                        </Tabs>
+                      </Box>
+                    </Box>
+                  </Modal>
+                )}
+              </div>
+              <BasicModal modalData={modalData} setModalData={setModalData} modalOpen={modalOpen} setModalOpen={setModalOpen} />
             </>
           )}
         </div>

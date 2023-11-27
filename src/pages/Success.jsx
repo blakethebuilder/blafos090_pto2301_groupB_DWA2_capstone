@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/Devcast-orange.png";
 
+import getUserData from "../components/getUserData.js.JS";
+
 
 
 import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
@@ -23,20 +25,8 @@ export default function Success(props) {
   const { user, setUser } = props;
 
   useEffect(() => {
-    async function getUserData() {
-      try {
-        const { data, error } = await supabase.auth.getUser();
-        if (data?.user) {
-          setUser(data.user);
-          console.log("User data:", data.user);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    }
-
-    getUserData();
-  }, []); // Removed the extra closing bracket and moved it here
+    getUserData(setUser);
+  }, []); 
 
   async function logout() {
     try {
@@ -58,15 +48,14 @@ export default function Success(props) {
       }}
     >
       <Container>
-        <Typography
-          component="h1"
-          variant="h2"
-          align="center"
-          color="primary"
-          gutterBottom
-        >
-          welcome, {user.email}
-        </Typography>
+
+
+          <h2>Welcome, {user.user_metadata.full_name} !</h2>
+       
+       <img src={user.user_metadata.avatar_url} alt="Avatar" style={{ borderRadius: "50%", maxWidth: "100%", height: "auto" }} ></img>
+            
+     
+
 
         <img
           className="logo"
@@ -81,8 +70,11 @@ export default function Success(props) {
           spacing={2}
           justifyContent="center"
         >
-          <Button variant="contained" onClick={() => logout()}>
+          <Button variant="Outlined" onClick={() => logout()}>
             Logout
+          </Button>
+          <Button variant="Contained" onClick={() => navigate("/Home")}>
+            Home
           </Button>
         </Stack>
       </Container>

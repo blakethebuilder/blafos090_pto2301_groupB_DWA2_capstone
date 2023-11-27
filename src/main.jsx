@@ -32,7 +32,7 @@ const theme = createTheme({
   },
 });
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
     path: "/*",
     element: <App />,
@@ -44,7 +44,8 @@ const router = createBrowserRouter([
       { path: "*", element: <ErrorPage /> },
     ],
   },
-]);
+])
+
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>

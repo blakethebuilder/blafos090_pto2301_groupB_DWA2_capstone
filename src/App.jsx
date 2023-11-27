@@ -14,10 +14,9 @@ import Success from "./pages/Success";
 
 export default function App() {
   const [mode, setMode] = useState("dark");
-  const [user, setUser] = useState({});
   const [podcastData, setPodcastData] = useState();
+  const [user, setUser] = useState(null);
 
-  const navigate = useNavigate();
 
   const toggleMode = () => {
     setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
@@ -30,40 +29,26 @@ export default function App() {
   return (
     <div className={`app ${mode}`}>
       <header>
-        <AppBar
-          position="static"
-          className="navbar"
-          sx={{ borderRadius: 5, marginBottom: 5 }}
-        >
+        <AppBar position="static" className="navbar" sx={{ borderRadius: 5, marginBottom: 5 }}>
           <Toolbar>
-            <IconButton
-              onClick={toggleMode}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
+            <IconButton onClick={toggleMode} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
               <LightModeIcon />
             </IconButton>
 
-            <NavLink
-              to="/home"
-              className="nav-link"
-              activeclassname="active-link"
-              exact={true}
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/login"
-              className="nav-link"
-              activeclassname="active-link"
-              exact={true}
-            >
+
+            {user ? (
+  <NavLink to="/home" className="nav-link" activeClassName="active-link" exact={true}>
+    Home
+  </NavLink>
+) : null}
+
+            <NavLink to="/login" className="nav-link" activeclassname="active-link" exact={true}>
               Login
             </NavLink>
-            <IconButton></IconButton>
+            <IconButton onClick={toggleMode} size="large" edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
+            <IconButton key="Logout">Logout</IconButton>
+            </IconButton>
+
           </Toolbar>
         </AppBar>
       </header>
@@ -71,9 +56,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login user={user} setUser={setUser} />} />
-          <Route path="/success" element={<Success user={user} />} />
-          <Route path="/home" element={<Home user={user} podcastData={podcastData} setPodcastData={setPodcastData} />} />
-          <Route path="*" element={<ErrorPage />} /> 
+          <Route path="/success" element={<Success user={user} setUser={setUser} />} />
+          <Route path="/home" element={<Home user={user} podcastData={podcastData} setPodcastData={setPodcastData} setUser={setUser} />} />
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </main>
     </div>

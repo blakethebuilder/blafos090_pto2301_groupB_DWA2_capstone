@@ -18,6 +18,7 @@ export default function Search(props) {
     includeScore: true,
   });
 
+
   useEffect(() => {
     const handleSearch = () => {
       setLoading(true);
@@ -38,7 +39,9 @@ export default function Search(props) {
     return () => {
       // Any cleanup code goes here
     };
-  }, [fuse, searchTerm, setLoading, podCastData]);
+  }, []);
+
+
 
   const cards = results.map((result) => (
     <Card
@@ -58,13 +61,15 @@ export default function Search(props) {
         padding: "20px",
         gap: "20px",
         width: "50%",
-        justifyContent: "space-between",
-        alignItems: "center",
+        margin: "auto",
 
       }}
     >
       <form noValidate autoComplete="off">
         <TextField
+        sx={{
+          width: "100%",
+        }}
             label="Search"
           variant="filled"
           value={searchTerm}
@@ -78,6 +83,9 @@ export default function Search(props) {
           }}
         />
         <TextField
+                sx={{
+                  width: "100%",
+                }}
           id="outlined-select-genre"
           select
           label="Select"

@@ -23,4 +23,5 @@ dist-ssr
 *.sln
 *.sw?
 
-src/assets/api.js
+# Ignore SUPABASE_URL
+/src/assets/api.js

@@ -12,14 +12,16 @@ SUPABASE_API)
 
 
 
-export default function Login() {
+export default function Login(props) {
+  const { setUser } = props
   const navigate = useNavigate();
   useEffect(() => {
     const handleAuthStateChange = (event, session) => {
       console.log('Auth state changed:', event, session);
 
       if (event === 'SIGNED_IN') {
-        navigate('/home');
+        navigate('/success');
+        setUser(session.user);
         
         console.log('User signed in');
       } else if (event === 'SIGNED_OUT') {
