@@ -5,6 +5,7 @@ import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 
 import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
+import getUserData from '../components/getUserData';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
 
@@ -18,13 +19,14 @@ export default function Login(props) {
 
       if (event === 'SIGNED_IN') {
         setUser(session.user);
-        navigate('/success');
+        navigate('/home');
         console.log('User signed in');
       } else if (event === 'SIGNED_OUT') {
         navigate('/login');
         console.log('User signed out');
       }
     };
+
 
     // Add the auth state change listener
     supabase.auth.onAuthStateChange(handleAuthStateChange);
@@ -34,6 +36,11 @@ export default function Login(props) {
       supabase.auth.onAuthStateChange(null);
     };
   }, []);
+
+  useEffect(() => {
+    getUserData(setUser);
+  }, []);
+
 
   return (
     <div>

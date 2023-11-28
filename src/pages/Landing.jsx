@@ -8,23 +8,28 @@ import { Link } from "react-router-dom";
 
 import logo from "../assets/Devcast-orange.png";
 
+import Carousel from "../components/carousel";
+
+import Copyright from "../components/Copyright";
+
+
 export default function Landing() {
   return (
     <Box
       sx={{
-        pt: 8,
-        pb: 6,
+        pt: 2,
+        pb: 1,
       }}
     >
       <Container>
         <Typography
           component="h1"
-          variant="h2"
+          variant="h3"
           align="center"
           color="primary"
-          gutterBottom
+     
         >
-          Welcome to
+          Welcome to,
         </Typography>
      
         {
@@ -35,21 +40,14 @@ export default function Landing() {
             style={{ maxWidth: "100%", height: "auto" }}
           />
         }
-
-        <Typography variant="h6" align="center"  paragraph>
-          Join me, Blake Foster (aka BLAFOS090), as we embark on a journey
-          through the latest in technology and software development. As part of
-          PTO2301-B at CodeSpace, this podcast app serves as the capstone
-          project for the Software Development Bootcamp. Together, let's explore
-          the cutting-edge world of React and navigate the dynamic landscape of
-          coding.
-        </Typography>
-        <Stack
-          sx={{ pt: 4 }}
+              <Carousel />
+                <Stack
+          sx={{ pt: 2, mb: 3 }}
           direction="row"
           spacing={2}
           justifyContent="center"
         >
+          
           <Link to="/login">
             <Button variant="contained">Login</Button>
           </Link>
@@ -57,7 +55,12 @@ export default function Landing() {
             <Button variant="outlined">Sign Up</Button>
           </Link>
         </Stack>
+  
+
+
+
       </Container>
+
     </Box>
   );
 }

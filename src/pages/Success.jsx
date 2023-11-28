@@ -63,6 +63,14 @@ export default function Success(props) {
           alt="Devcast Logo"
           style={{ maxWidth: "100%", height: "auto" }}
         />
+                <Typography variant="h6" align="center"  paragraph>
+          Join me, Blake Foster (aka BLAFOS090), as we embark on a journey
+          through the latest in technology and software development. As part of
+          PTO2301-B at CodeSpace, this podcast app serves as the capstone
+          project for the Software Development Bootcamp. Together, let's explore
+          the cutting-edge world of React and navigate the dynamic landscape of
+          coding.
+        </Typography>
 
         <Stack
           sx={{ pt: 4 }}

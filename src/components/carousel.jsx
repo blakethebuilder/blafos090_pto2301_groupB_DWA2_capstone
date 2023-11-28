@@ -1,59 +1,71 @@
-import React from 'react';
-import ItemsCarousel from 'react-items-carousel';
-import range from 'lodash/range';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
+import { useState, useEffect } from 'react';
 
-export default class Test extends React.Component {
-
-  componentWillMount() {
-    this.setState({
-      children: [],
-      activeItemIndex: 0,
-    });
-
-    setTimeout(() => {
-      this.setState({
-        children: createChildren(20),
-      })
-    }, 100);
+const responsive = {
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 6,
+    slidesToSlide: 6 // optional, default to 1.
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 2,
+    slidesToSlide: 2 // optional, default to 1.
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1 // optional, default to 1.
   }
+};
 
-  createChildren = n => range(n).map(i => <div key={i} style={{ height: 200, background: '#333' }}>{i}</div>);
+function PodcastCarousel() {
+  const [content, setContent] = useState([]);
 
-  changeActiveItem = (activeItemIndex) => this.setState({ activeItemIndex });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://podcast-api.netlify.app/shows");
+        if (!response.ok) {
+          throw new Error("Network error");
+        }
+        const data = await response.json();
+        setContent(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching podcast data:", error);
+      }
+    };
 
-  render() {
-    const {
-      activeItemIndex,
-      children,
-    } = this.state;
+    fetchData();
+  }, []);
 
-    return (
-      <ItemsCarousel
-        // Placeholder configurations
-        enablePlaceholder
-        numberOfPlaceholderItems={5}
-        minimumPlaceholderTime={1000}
-        placeholderItem={<div style={{ height: 200, background: '#900' }}>Placeholder</div>}
+  return (
+    <Carousel
+      swipeable={true}
+      draggable={false}
+      showDots={true}
+      responsive={responsive}
 
-        // Carousel configurations
-        numberOfCards={3}
-        gutter={12}
-        showSlither={true}
-        firstAndLastGutter={true}
-        freeScrolling={false}
+      infinite={true}
 
-        // Active item configurations
-        requestToChangeActive={this.changeActiveItem}
-        activeItemIndex={activeItemIndex}
-        activePosition={'center'}
+     customTransition="all .5"
 
-        chevronWidth={24}
-        rightChevron={'>'}
-        leftChevron={'<'}
-        outsideChevron={false}
-      >
-        {children}
-      </ItemsCarousel>
-    );  
-  }
+      containerClass="carousel-container"
+      removeArrowOnDeviceType={["tablet", "mobile"]}
+      deviceType="desktop" // Assuming default to desktop if not specified
+      dotListClass="custom-dot-list-style"
+      itemClass="carousel-item-padding-40-px"
+    >
+      {content.map((podcast, index) => (
+        <div key={index}>
+          <img src={podcast.image} alt={podcast.title} style={{ borderRadius: "10px" , width: "150px" , height: "150px" }} />
+          <p>{podcast.title}</p>
+        </div>
+      ))}
+    </Carousel>
+  );
 }
+
+export default PodcastCarousel;

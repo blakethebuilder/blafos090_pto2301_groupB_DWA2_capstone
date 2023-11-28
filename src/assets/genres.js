@@ -8,6 +8,7 @@ const genres = {
   7: "Fiction",
   8: "News",
   9: "Kids and Family",
+  10: "All",
 };
 
 export default genres;

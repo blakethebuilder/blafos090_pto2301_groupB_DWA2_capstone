@@ -4,22 +4,23 @@
   text-align: center;
 }
 
+/* Logo Styles */
 .logo {
-  height: 6em;
+  height: 3em;
   padding: 1.5em;
   will-change: filter;
-  transition: filter 300ms;
 }
 
 .logo:hover {
   filter: drop-shadow(0 0 2em #FF914D);
 }
 
+/* Navbar Styles */
 .navbar {
-  width: 100%;
-  position: fixed;
+  position: sticky;
   top: 0;
   left: 0;
+  display: flex;
 }
 
 .nav-link {
@@ -41,56 +42,54 @@
   color: #000;
 }
 
+/* Login Page Styles */
 .Login-page {
+  display: flex;
   justify-content: center;
   height: fit-content;
   width: 100vw;
 }
 
+/* Header Styles */
 .App-header {
   position: sticky;
 }
 
+/* Theme Styles */
 .app.light {
   background-color: #fff;
   color: #242424;
-}
 
-.app.light button {
-  color: #242424;
-}
+  button {
+    color: #242424;
+  }
 
-.app.light .navbar a {
-  color: #fff;
-}
+  .navbar a {
+    color: #fff;
+  }
 
-.app.light .navbar a:hover {
-  color:  #242424;
-}
+  .navbar a:hover {
+    color: #242424;
+  }
 
-.app.light .navbar .active-link {
-  color: #fff;
-}
+  .navbar .active-link {
+    color: #fff;
+  }
 
-.app.light .Login-page {
-  color: #242424;
+  .Login-page {
+    color: #242424;
+  }
+
+  .text-field {
+    color: black;
+  }
 }
 
 .app.dark {
   background-color: #242424;
   color: #fff;
-}
 
-.app.light .text-field {
-  color: black;
-}
-
-.app.dark .text-field {
-  color: white;
-}
-
-.home {
-
-
-
+  .text-field {
+    color: white;
+  }
 }
