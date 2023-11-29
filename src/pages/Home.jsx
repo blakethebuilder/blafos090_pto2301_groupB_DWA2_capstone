@@ -16,6 +16,9 @@ import getUserData from "../components/getUserData.js";
 import MusicPlayerSlider from "../components/musicPlayer.jsx";
 import 'react-h5-audio-player/lib/styles.css';
 
+
+import PodCastPlayer from "../components/podcastPlayer.jsx";
+
 Home.propTypes = {
   allPodcastData: PropTypes.any, // Add the prop type validation for allPodcastData
   user: PropTypes.any,
@@ -169,15 +172,16 @@ export default function Home(props) {
             />
             <h2>Welcome, {user.user_metadata.full_name}!</h2>
           </Box>
-          <MusicPlayerSlider
-            episode={episode}
-            selectedPodcast={selectedPodcast}
-            setSelectedPodcast={setSelectedPodcast}
-            setEpisode={setEpisode}
-            podcastData={allPodcastData}
-            loading={loading}
-            setLoading={setLoading}
-          />
+
+          <PodCastPlayer
+                        episode={episode}
+                        selectedPodcast={selectedPodcast}
+                        setSelectedPodcast={setSelectedPodcast}
+                        setEpisode={setEpisode}
+                        podcastData={allPodcastData}
+                        loading={loading}
+                        setLoading={setLoading}
+                      />
 
           <Box className="search-box">
             <Search

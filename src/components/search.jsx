@@ -118,10 +118,19 @@ export default function Search(props) {
         onClick={() => {
           fetchPodcastData(item.id);  
         }}
-        sx={{ cursor: "pointer" }}
+        sx={{ cursor: "pointer", maxWidth: "100%", borderRadius: "25px",  }}
       >
         <Box p={2}>
-          <img src={item.image} alt={item.title} width="50%" />
+          <Box>
+
+            <Typography
+              variant="h5"
+              sx={{ display: "inline", fontWeight: "bold" }}
+            >
+              {item.title}
+            </Typography>
+          </Box>
+          <img src={item.image} alt={item.title} width="150px" height="150px" />
           <Typography variant="h6">{item.title}</Typography>
           <Typography variant="body2">
             {item.description.length > 100
@@ -190,6 +199,7 @@ export default function Search(props) {
           sx={{
             width: "100%",
             mb: 5,
+            backgroundColor: "transparent",
           }}
           label="Search"
           variant="filled"
