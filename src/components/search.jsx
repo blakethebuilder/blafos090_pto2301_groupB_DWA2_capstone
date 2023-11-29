@@ -9,8 +9,6 @@
  * @return {JSX.Element} The rendered Search component.
  */
 
-
-
 import Fuse from "fuse.js";
 import { useState, useEffect, useMemo } from "react";
 import IconButton from "@mui/material/IconButton";
@@ -38,6 +36,7 @@ export default function Search(props) {
   const [error, setError] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
 
   const [sortOption, setSortOption] = useState("");
 
@@ -136,6 +135,10 @@ export default function Search(props) {
     }
   };
 
+  const  handleLike = (id) => {
+    setIsLiked(!isLiked);
+  };
+
   const PodcastCard = ({ item }) => {
     return (
       <Card
@@ -188,6 +191,9 @@ export default function Search(props) {
             })}
             className="seasons"
           />
+          <Button onClick={() => handleLike(item.id)}>
+            {isLiked ? "Unlike" : "Like"}
+          </Button>
         </Box>
       </Card>
     );
@@ -237,7 +243,7 @@ export default function Search(props) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
               e.preventDefault();
             }
           }}

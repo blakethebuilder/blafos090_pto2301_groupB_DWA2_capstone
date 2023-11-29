@@ -6,7 +6,12 @@ import Typography from '@mui/material/Typography';
 
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
+import {Button} from '@mui/material';
 
+import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_API, SUPABASE_URL } from "../assets/api";
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
 
 import { Card, CardContent } from '@mui/material';
 
@@ -14,7 +19,7 @@ const Widget = styled('div')(({ theme }) => ({
     
     padding: 16,
     borderRadius: 16,
-
+    width: '800px',
 
     margin: 'auto',
     
@@ -57,6 +62,8 @@ const EpisodesContainer = styled("div")({
   });
 
 export default function PodCastPlayer(props) {
+  const [isLiked, setIsLiked] = useState(false);
+
 
     const {
         episode,
@@ -104,7 +111,52 @@ export default function PodCastPlayer(props) {
         return label;
       };
 
-
+      const handleLike = async (id, title, description, image, seasons, episodes) => {
+        try {
+          // Determine the new like status
+          const newLikedStatus = !isLiked;
+      
+          // If it was liked before, perform delete
+          if (!newLikedStatus) {
+            const { data, error } = await supabase
+              .from('podcasts')
+              .delete()
+              .eq('id', id);
+      
+            if (error) {
+              console.error('Error performing delete:', error.message);
+            } else {
+              console.log('Delete operation successful:', data);
+            }
+          } else {
+            // If it was unliked, perform upsert
+            const { data, error } = await supabase
+              .from('podcasts')
+              .upsert([
+                {
+                  id: selectedPodcast.id,
+                  title: selectedPodcast.title,
+                  description: selectedPodcast.description,
+                  image: selectedPodcast.image,
+                  seasons: selectedPodcast.seasons,
+                  episodes: selectedPodcast.episodes,
+                  liked: newLikedStatus,
+                },
+              ]);
+      
+            if (error) {
+              console.error('Error performing upsert:', error.message);
+            } else {
+              console.log('Upsert operation successful:', data);
+            }
+          }
+      
+          // Update the like status in the state after the operation
+          setIsLiked(newLikedStatus);
+        } catch (error) {
+          console.error('Error in handleLike:', error.message);
+        }
+      };
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
@@ -120,6 +172,9 @@ export default function PodCastPlayer(props) {
               
             />
           </CoverImage>
+          <Button onClick={() => handleLike(selectedPodcast.id)}>
+            {isLiked ? "Unlike" : "Like"}
+          </Button>
           <Box sx={{ ml: 1.5, minWidth: 0 }}>
 
             <Typography noWrap>
