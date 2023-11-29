@@ -64,7 +64,6 @@ export default function App() {
       showSkipControls
       showJumpControls
       layout="horizontal"
-      autoPlay
       style={{
         width: "100%",
         borderRadius: "10px",

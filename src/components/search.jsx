@@ -228,7 +228,7 @@ export default function Search(props) {
       <form id="search-form" noValidate autoComplete="off">
         <TextField
           sx={{
-            width: "100%",
+            width: "85%",
             mb: 5,
             backgroundColor: "#f5f5f5",
           }}
