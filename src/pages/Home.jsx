@@ -13,8 +13,9 @@ import { styled } from "@mui/material/styles";
 import Search from "../components/search";
 import getUserData from "../components/getUserData.js";
 
-import MusicPlayerSlider from "../components/musicPlayer.jsx";
-import 'react-h5-audio-player/lib/styles.css';
+import Button from "@mui/material/Button";
+
+
 
 
 import PodCastPlayer from "../components/podcastPlayer.jsx";
@@ -138,6 +139,18 @@ export default function Home(props) {
     setValue(Math.min(Math.max(newValue, 0), modalData.seasons.length - 1));
   };
 
+  async function logout() {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error during logout:", error);
+      }
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  }
+
   return (
     <Box
       className="home"
@@ -171,6 +184,9 @@ export default function Home(props) {
               }}
             />
             <h2>Welcome, {user.user_metadata.full_name}!</h2>
+            <Button variant="Outlined" onClick={() => logout()}>
+            Logout
+          </Button>
           </Box>
 
           <PodCastPlayer

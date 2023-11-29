@@ -152,9 +152,11 @@
 /* Login Page Styles */
 .login-page {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   height: fit-content;
   width: 100vw;
+  color: #000;
 }
 
 /* Header Styles */

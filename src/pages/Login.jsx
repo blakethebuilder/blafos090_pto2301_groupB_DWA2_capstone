@@ -43,7 +43,7 @@ export default function Login(props) {
 
 
   return (
-    <div>
+    <div className="login-page">
       <Auth
         supabaseClient={supabase}
         providers={['discord', 'google']}

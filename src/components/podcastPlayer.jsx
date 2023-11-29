@@ -7,25 +7,27 @@ import Typography from '@mui/material/Typography';
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 
-import AudioPlayer from "react-h5-audio-player";
-import "react-h5-audio-player/lib/styles.css";
 
 import { Card, CardContent } from '@mui/material';
 
-
 const Widget = styled('div')(({ theme }) => ({
-  padding: 16,
-  borderRadius: 16,
-  width: 800,
-  maxWidth: '80%',
-  margin: 'auto',
-  position: 'relative',
-  zIndex: 1,
-  backgroundColor:
-    theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.4)',
-  backdropFilter: 'blur(40px)',
-  background: 'rgba(255,255,255,0.4)',
-}));
+    padding: 16,
+    borderRadius: 16,
+    width: "800px",
+    maxWidth: '80%',
+    margin: 'auto',
+    position: 'relative',
+    zIndex: 1,
+    backgroundColor:
+      theme.palette.mode === 'dark' ? 'primary-bg' : '#fff',
+    backdropFilter: 'blur(40px)',
+    background: 'rgba(255,255,255,0.4)',
+    [theme.breakpoints.down('sm')]: {
+      width: '100%',
+      maxWidth: '100%',
+      overflow: 'hidden',
+    },
+  }));
 
 const CoverImage = styled('div')({
   width: 100,
@@ -40,12 +42,7 @@ const CoverImage = styled('div')({
   },
 });
 
-const TinyText = styled(Typography)({
-  fontSize: '0.75rem',
-  opacity: 0.38,
-  fontWeight: 500,
-  letterSpacing: 0.2,
-});
+
 
 const EpisodesContainer = styled("div")({
 
@@ -106,15 +103,7 @@ export default function PodCastPlayer(props) {
         return label;
       };
 
-      const Player = ({ episode }) => (
-        <AudioPlayer
-          src={episode?.file}
-          onPlay={() => console.log("Audio is playing")}
-          showSkipControls
-          showJumpControls
-          autoPlay
-        />
-      );
+
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
@@ -138,7 +127,7 @@ export default function PodCastPlayer(props) {
             </Typography>
           </Box>
         </Box>
-        <Player episode={episode} />
+
 
 
         <Box className="season-controls">
@@ -146,6 +135,13 @@ export default function PodCastPlayer(props) {
     onChange={handleTabChange}
     variant="scrollable"
     scrollButtons="auto"
+    sx={{
+      "& .MuiTabs-indicator": {
+        display: "contents",
+
+      },
+      mb: 2,
+    }}
   >
     {selectedPodcast && selectedPodcast.seasons
       ? Object.keys(selectedPodcast.seasons).map((seasonKey, index) => (

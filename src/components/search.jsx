@@ -1,9 +1,11 @@
 import Fuse from "fuse.js";
 import { useState, useEffect, useMemo } from "react";
 import IconButton from "@mui/material/IconButton";
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import { Card, Box, Button, Typography, Grid, Chip } from "@mui/material";
+import { Card, Box, Button, Typography, Grid, Chip, Collapse } from "@mui/material";
+
 import genres from "../assets/genres";
 
 import { Select, MenuItem } from "@mui/material";
@@ -14,8 +16,14 @@ export default function Search(props) {
   const [results, setResults] = useState([]);
   const [error, setError] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState("");
+  const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(true);
 
   const [sortOption, setSortOption] = useState("");
+
+
+  const handleToggleSearchBox = () => {
+    setIsSearchBoxOpen(!isSearchBoxOpen);
+  };
 
   const fuse = useMemo(
     () =>
@@ -199,7 +207,7 @@ export default function Search(props) {
           sx={{
             width: "100%",
             mb: 5,
-            backgroundColor: "transparent",
+            backgroundColor: "#f5f5f5",
           }}
           label="Search"
           variant="filled"
@@ -218,8 +226,12 @@ export default function Search(props) {
             ),
           }}
         />
+              <IconButton onClick={handleToggleSearchBox}>
+        <ArrowDownwardIcon />
+      </IconButton>
+             <Collapse in={isSearchBoxOpen} timeout="auto" unmountOnExit>
 
-        <Box>
+             <Box>
           <Box 
           sx={{ display: "flex", flexDirection: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
             <Button
@@ -252,6 +264,11 @@ export default function Search(props) {
         ) : (
           allCardsGrid
         )}
+
+
+             </Collapse>
+
+
       </form>
     </Box>
   );
