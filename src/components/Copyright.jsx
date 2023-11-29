@@ -9,9 +9,8 @@ import Link from '@mui/material/Link';
     return (
       <Typography variant="body2" color="secondary" align="center" {...props}>
         {'Copyright © '}
-        <Link color="inherit" href="https://mui.com/">
-          blakethebuiler 
-   
+        <Link  >
+          blakethebuiler  
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}

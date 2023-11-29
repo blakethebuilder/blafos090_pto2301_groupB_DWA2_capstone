@@ -1,3 +1,16 @@
+/**
+ * Renders the Home component.
+ *
+ * @param {Object} props - The props passed to the component.
+ * @param {Array} props.allPodcastData - The array of podcast data.
+ * @param {Object} props.user - The user object.
+ * @param {Function} props.setPodcastData - The function to set the podcast data.
+ * @param {Function} props.setUser - The function to set the user.
+ * @param {Object} props.episode - The episode object.
+ * @param {Function} props.setEpisode - The function to set the episode.
+ * @return {JSX.Element} The Home component.
+ */
+
 import { useEffect, useState } from "react";
 
 import "../styles/App.css";
@@ -14,9 +27,6 @@ import Search from "../components/search";
 import getUserData from "../components/getUserData.js";
 
 import Button from "@mui/material/Button";
-
-
-
 
 import PodCastPlayer from "../components/podcastPlayer.jsx";
 
@@ -75,7 +85,8 @@ function CustomTabPanel(props) {
 }
 
 export default function Home(props) {
-  const { allPodcastData, user, setPodcastData, setUser, episode, setEpisode } = props;
+  const { allPodcastData, user, setPodcastData, setUser, episode, setEpisode } =
+    props;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -127,7 +138,6 @@ export default function Home(props) {
     fetchPodcastData(pod.id);
     handleOpen();
   };
-
 
   const a11yProps = (index) => ({
     id: `simple-tab-${index}`,
@@ -185,19 +195,19 @@ export default function Home(props) {
             />
             <h2>Welcome, {user.user_metadata.full_name}!</h2>
             <Button variant="Outlined" onClick={() => logout()}>
-            Logout
-          </Button>
+              Logout
+            </Button>
           </Box>
 
           <PodCastPlayer
-                        episode={episode}
-                        selectedPodcast={selectedPodcast}
-                        setSelectedPodcast={setSelectedPodcast}
-                        setEpisode={setEpisode}
-                        podcastData={allPodcastData}
-                        loading={loading}
-                        setLoading={setLoading}
-                      />
+            episode={episode}
+            selectedPodcast={selectedPodcast}
+            setSelectedPodcast={setSelectedPodcast}
+            setEpisode={setEpisode}
+            podcastData={allPodcastData}
+            loading={loading}
+            setLoading={setLoading}
+          />
 
           <Box className="search-box">
             <Search
@@ -207,7 +217,6 @@ export default function Home(props) {
               setEpisode={setEpisode}
               selectedPodcast={selectedPodcast}
               setSelectedPodcast={setSelectedPodcast}
-         
             />
           </Box>
 

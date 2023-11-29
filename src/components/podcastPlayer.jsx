@@ -11,12 +11,13 @@ import Tabs from "@mui/material/Tabs";
 import { Card, CardContent } from '@mui/material';
 
 const Widget = styled('div')(({ theme }) => ({
+    
     padding: 16,
     borderRadius: 16,
-    width: "800px",
-    maxWidth: '80%',
+
+
     margin: 'auto',
-    position: 'relative',
+    
     zIndex: 1,
     backgroundColor:
       theme.palette.mode === 'dark' ? 'primary-bg' : '#fff',
@@ -108,17 +109,19 @@ export default function PodCastPlayer(props) {
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
       <Widget>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+        <Typography variant="caption" color="text.secondary" fontWeight={500}>
+              {selectedPodcast?.title}
+            </Typography>
           <CoverImage>
             <img
               alt="can't win - Chilling Sunday"
               src={selectedPodcast?.image}
+              
             />
           </CoverImage>
           <Box sx={{ ml: 1.5, minWidth: 0 }}>
-            <Typography variant="caption" color="text.secondary" fontWeight={500}>
-              {selectedPodcast?.title}
-            </Typography>
+
             <Typography noWrap>
               {episode?.title}
             </Typography>

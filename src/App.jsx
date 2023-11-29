@@ -1,3 +1,11 @@
+/**
+ * The App component is the main component of the application.
+ * It renders the entire application and manages the state of the mode, podcast data, user, and current episode.
+ *
+ * @return {JSX.Element} The rendered application.
+ */
+
+
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./styles/App.css";
@@ -49,22 +57,23 @@ export default function App() {
       </Slide>
     );
   }
-
   const Player = ({ episode }) => (
     <AudioPlayer
       src={episode?.file}
       onPlay={() => console.log("Audio is playing")}
       showSkipControls
       showJumpControls
-
+      layout="horizontal"
+      autoPlay
       style={{
-        maxWidth: "100%",
         width: "100%",
-        height: "auto",
+        borderRadius: "10px",
+       
+        /* add more styles here */
       }}
+      className="custom-audio-player"
     />
   );
-
   return (
     <div className={`app ${mode}`}>
       <header>
@@ -138,23 +147,23 @@ export default function App() {
           <HideOnScroll>
             <AppBar
               position="fixed"
-              className="navbar"
+              className="bottom-navbar"
               sx={{
                 borderRadius: 5,
                 zIndex: 1,
                 top: "auto",
                 bottom: 0,
-                maxHeight: 60,
+                maxHeight: 650,
+                backgroundColor: '#ffffff',
               }}
             >
-              <Toolbar className="toolbar">
-                <img src={logo} alt="devcast-logo" className="logo" />
-
+              <Toolbar className="bottom-toolbar">
+   
                         <Player episode={episode} />
               </Toolbar>
             </AppBar>
           </HideOnScroll>
-          ); 
+          
         </footer>
       </main>
     </div>

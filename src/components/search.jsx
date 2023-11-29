@@ -1,10 +1,31 @@
+/**
+ * Renders a search component with search functionality and filter options.
+ *
+ * @param {object} props - The properties passed to the Search component.
+ * @param {array} props.allPodcastData - An array of podcast data.
+ * @param {function} props.setSelectedPodcast - A function to set the selected podcast.
+ * @param {boolean} props.loading - A boolean indicating whether the component is loading.
+ * @param {function} props.setLoading - A function to set the loading state.
+ * @return {JSX.Element} The rendered Search component.
+ */
+
+
+
 import Fuse from "fuse.js";
 import { useState, useEffect, useMemo } from "react";
 import IconButton from "@mui/material/IconButton";
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SearchIcon from "@mui/icons-material/Search";
 import TextField from "@mui/material/TextField";
-import { Card, Box, Button, Typography, Grid, Chip, Collapse } from "@mui/material";
+import {
+  Card,
+  Box,
+  Button,
+  Typography,
+  Grid,
+  Chip,
+  Collapse,
+} from "@mui/material";
 
 import genres from "../assets/genres";
 
@@ -19,7 +40,6 @@ export default function Search(props) {
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(true);
 
   const [sortOption, setSortOption] = useState("");
-
 
   const handleToggleSearchBox = () => {
     setIsSearchBoxOpen(!isSearchBoxOpen);
@@ -87,7 +107,6 @@ export default function Search(props) {
     handleSearch();
   }, [allPodcastData, searchTerm, fuse, setLoading]);
 
-
   const fetchPodcastData = (id) => {
     setLoading(true);
     fetch(`https://podcast-api.netlify.app/id/${id}`)
@@ -102,7 +121,6 @@ export default function Search(props) {
         setLoading(false);
       });
   };
-
 
   const handleGenreClick = (genre) => {
     setSelectedGenre(genre);
@@ -124,20 +142,20 @@ export default function Search(props) {
         key={item.id}
         variant="outlined"
         onClick={() => {
-          fetchPodcastData(item.id);  
+          fetchPodcastData(item.id);
         }}
-        sx={{ cursor: "pointer", maxWidth: "100%", borderRadius: "25px",  }}
+        sx={{ cursor: "pointer", maxWidth: "100%", borderRadius: "25px" }}
       >
-        <Box p={2}>
-          <Box>
-
-            <Typography
-              variant="h5"
-              sx={{ display: "inline", fontWeight: "bold" }}
-            >
-              {item.title}
-            </Typography>
-          </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            p: 2,
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Box></Box>
           <img src={item.image} alt={item.title} width="150px" height="150px" />
           <Typography variant="h6">{item.title}</Typography>
           <Typography variant="body2">
@@ -149,6 +167,12 @@ export default function Search(props) {
             label={`Seasons: ${item.seasons}`}
             className="seasons"
             color="primary"
+          />
+
+          <Chip
+            label={`Genre: ${genres[item.genres]}`}
+            className="genre"
+            color="default"
           />
           <h4>Last Upload:</h4>
           <Chip
@@ -194,10 +218,9 @@ export default function Search(props) {
       sx={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "#f5f5f5",
         borderRadius: "50px",
-        padding: "20px",
-        gap: "20px",
+        padding: "10px",
+        gap: "10px",
         width: "80%",
         margin: "auto",
       }}
@@ -214,7 +237,7 @@ export default function Search(props) {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           onKeyDown={(e) => {
-            if (e.keyCode === 13) {
+            if (e.key === 'Enter') {
               e.preventDefault();
             }
           }}
@@ -226,49 +249,65 @@ export default function Search(props) {
             ),
           }}
         />
-              <IconButton onClick={handleToggleSearchBox}>
-        <ArrowDownwardIcon />
-      </IconButton>
-             <Collapse in={isSearchBoxOpen} timeout="auto" unmountOnExit>
 
-             <Box>
-          <Box 
-          sx={{ display: "flex", flexDirection: "flex", alignItems: "center", justifyContent: "center", gap: "20px" }}>
-            <Button
-              sx={{ m: 3 }}
-              variant="contained"
-              onClick={handleSearchButtonClick}
+        <Select
+          value={selectedGenre}
+          onChange={(e) => setSelectedGenre(e.target.value)}
+          variant="standard"
+          sx={{ width: 200, ml: 3 }}
+        >
+          <MenuItem value="">All Genres</MenuItem>
+          {Object.entries(genres).map(([id, name]) => (
+            <MenuItem key={id} value={id}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+        <IconButton onClick={handleToggleSearchBox}>
+          <ArrowDownwardIcon label="Search" />
+        </IconButton>
+        <Collapse in={isSearchBoxOpen} timeout="auto" unmountOnExit>
+          <Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "20px",
+              }}
             >
-              Search
-            </Button>
-            <Typography variant="h6">Sort by:</Typography>
-            <Select
-              value={sortOption}
-              onChange={(e) => handleSort(e.target.value)}
-              variant="standard"
-            >
-              <MenuItem value="titleAsc">A-Z</MenuItem>
-              <MenuItem value="titleDesc">Z-A</MenuItem>
-              <MenuItem value="dateAsc">Date Asc</MenuItem>
-              <MenuItem value="dateDesc">Date Desc</MenuItem>
-            </Select>
+              <Button
+                sx={{ m: 3 }}
+                variant="contained"
+                onClick={handleSearchButtonClick}
+              >
+                Search
+              </Button>
+              <Typography variant="h6">Sort by:</Typography>
+              <Select
+                value={sortOption}
+                onChange={(e) => handleSort(e.target.value)}
+                variant="standard"
+              >
+                <MenuItem value="titleAsc">A-Z</MenuItem>
+                <MenuItem value="titleDesc">Z-A</MenuItem>
+                <MenuItem value="dateAsc">Date Asc</MenuItem>
+                <MenuItem value="dateDesc">Date Desc</MenuItem>
+              </Select>
+            </Box>
           </Box>
-        </Box>
 
-        {loading ? (
-          <p>Loading...</p>
-        ) : error ? (
-          <p>{error}</p>
-        ) : searchTerm ? (
-          cardsGrid
-        ) : (
-          allCardsGrid
-        )}
-
-
-             </Collapse>
-
-
+          {loading ? (
+            <p>Loading...</p>
+          ) : error ? (
+            <p>{error}</p>
+          ) : searchTerm ? (
+            cardsGrid
+          ) : (
+            allCardsGrid
+          )}
+        </Collapse>
       </form>
     </Box>
   );

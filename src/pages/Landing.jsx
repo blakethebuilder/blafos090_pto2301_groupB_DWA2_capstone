@@ -1,3 +1,9 @@
+/**
+ * Renders the Landing component.
+ *
+ * @return {JSX.Element} The rendered Landing component.
+ */
+
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
@@ -5,12 +11,9 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 
-
 import logo from "../assets/Devcast-orange.png";
 
 import Carousel from "../components/carousel";
-
-import Copyright from "../components/Copyright";
 
 
 export default function Landing() {
@@ -22,16 +25,10 @@ export default function Landing() {
       }}
     >
       <Container>
-        <Typography
-          component="h1"
-          variant="h3"
-          align="center"
-          color="primary"
-     
-        >
+        <Typography component="h1" variant="h3" align="center" color="primary">
           Welcome to,
         </Typography>
-     
+
         {
           <img
             className="logo"
@@ -40,14 +37,13 @@ export default function Landing() {
             style={{ maxWidth: "100%", height: "auto" }}
           />
         }
-              <Carousel />
-                <Stack
+        <Carousel />
+        <Stack
           sx={{ pt: 2, mb: 3 }}
           direction="row"
           spacing={2}
           justifyContent="center"
         >
-          
           <Link to="/login">
             <Button variant="contained">Login</Button>
           </Link>
@@ -55,12 +51,7 @@ export default function Landing() {
             <Button variant="outlined">Sign Up</Button>
           </Link>
         </Stack>
-  
-
-
-
       </Container>
-
     </Box>
   );
 }

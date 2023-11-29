@@ -1,3 +1,10 @@
+    /**
+     * Handles the change in authentication state.
+     *
+     * @param {string} event - The event that triggered the state change.
+     * @param {object} session - The session object containing user information.
+     */
+
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
