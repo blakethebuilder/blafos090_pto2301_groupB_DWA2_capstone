@@ -6,7 +6,7 @@ import fetchPodcastData from '../assets/fetchSupa'; // Adjust the path according
 
 const Likes = ({ match }) => {
   const [podcastData, setPodcastData] = useState(null);
-  const podcastId = match.params.id; // Assuming you have a route parameter for the podcast ID
+  const podcastId = match?.params.id; // Assuming you have a route parameter for the podcast ID
 
   useEffect(() => {
     if (podcastId) {
@@ -20,7 +20,7 @@ const Likes = ({ match }) => {
   }, [podcastId]);
 
   if (!podcastData) {
-    return <div>Loading...</div>;
+    return <div>Save your likes here </div>;
   }
 
   return (
