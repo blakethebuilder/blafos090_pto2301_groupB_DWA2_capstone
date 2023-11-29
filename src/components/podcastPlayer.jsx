@@ -8,32 +8,28 @@ import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
 import {Button} from '@mui/material';
 
-import { createClient } from "@supabase/supabase-js";
-import { SUPABASE_API, SUPABASE_URL } from "../assets/api";
-
-export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
-
 import { Card, CardContent } from '@mui/material';
 
-const Widget = styled('div')(({ theme }) => ({
-    
-    padding: 16,
-    borderRadius: 16,
-    width: '800px',
+import getSupabase  from "../assets/api";
 
-    margin: 'auto',
-    
-    zIndex: 1,
-    backgroundColor:
-      theme.palette.mode === 'dark' ? 'primary-bg' : '#fff',
-    backdropFilter: 'blur(40px)',
-    background: 'rgba(255,255,255,0.4)',
-    [theme.breakpoints.down('sm')]: {
-      width: '100%',
-      maxWidth: '100%',
-      overflow: 'hidden',
-    },
-  }));
+const supabase = getSupabase();
+
+const Widget = styled('div')(({ theme }) => ({
+  padding: 16,
+  borderRadius: 16,
+  width: '850px',
+  margin: 'auto',
+  backgroundColor: theme.palette.mode === 'dark' ? '#1a1a1a' : '#fff',
+  boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+  flex: '0 1 auto',
+  minWidth: 0,
+  [theme.breakpoints.down('sm')]: {
+    flex: '1 1 0%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+  },
+}));
+
 
 const CoverImage = styled('div')({
   width: 100,
@@ -102,6 +98,9 @@ export default function PodCastPlayer(props) {
 
       if (!selectedPodcast) {
         return <div>Select Podcast</div>;
+      }
+      if (loading) {
+        return <div>loading....</div>;
       }
 
       const truncateLabel = (label, maxLength) => {
@@ -180,7 +179,7 @@ export default function PodCastPlayer(props) {
             <Typography noWrap>
               {episode?.title}
             </Typography>
-            <Typography noWrap letterSpacing={-0.25}>
+            <Typography variant="caption" noWrap letterSpacing={-0.25}>
               {episode?.description}
             </Typography>
           </Box>

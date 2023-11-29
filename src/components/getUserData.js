@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
-import { SUPABASE_API, SUPABASE_URL } from "../assets/api";
+import  getSupabase from "../assets/api";
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
+const supabase = getSupabase();
 
 export default async function getUserData(setUser) {
   try {

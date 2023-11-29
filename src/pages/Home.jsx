@@ -29,6 +29,7 @@ import getUserData from "../components/getUserData.js";
 import Button from "@mui/material/Button";
 
 import PodCastPlayer from "../components/podcastPlayer.jsx";
+import Likes from "./Likes.jsx";
 
 Home.propTypes = {
   allPodcastData: PropTypes.any, // Add the prop type validation for allPodcastData
@@ -198,7 +199,9 @@ export default function Home(props) {
               Logout
             </Button>
           </Box>
-
+              <Box sx={{ borderBottom: 1, borderColor: "divider" }}> 
+                <Likes/>
+              </Box>
           <PodCastPlayer
             episode={episode}
             selectedPodcast={selectedPodcast}

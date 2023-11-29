@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Button, Container, Typography, Box, Stack } from "@mui/material";
 
-import { createClient } from "@supabase/supabase-js";
+
 import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/Devcast-orange.png";
@@ -9,16 +9,10 @@ import logo from "../assets/Devcast-orange.png";
 import getUserData from "../components/getUserData.js";
 
 
+import getSupabase  from "../assets/api";
 
-import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
+const supabase = getSupabase();
 
-
-
-
-export const supabase = createClient(
-  SUPABASE_URL,
-  SUPABASE_API)
-  
 
 export default function Success(props) {
   const navigate = useNavigate();

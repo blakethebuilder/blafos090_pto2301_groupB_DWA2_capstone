@@ -7,14 +7,17 @@
 
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
+
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 
-import { SUPABASE_API, SUPABASE_URL } from '../assets/api';
+
 import getUserData from '../components/getUserData';
 
-export const supabase = createClient(SUPABASE_URL, SUPABASE_API);
+import getSupabase  from "../assets/api";
+
+const supabase = getSupabase();
+
 
 export default function Login(props) {
   const { setUser } = props;

@@ -36,7 +36,6 @@ export default function Search(props) {
   const [error, setError] = useState(null);
   const [selectedGenre, setSelectedGenre] = useState("");
   const [isSearchBoxOpen, setIsSearchBoxOpen] = useState(true);
-  const [isLiked, setIsLiked] = useState(false);
 
   const [sortOption, setSortOption] = useState("");
 
@@ -135,9 +134,6 @@ export default function Search(props) {
     }
   };
 
-  const  handleLike = (id) => {
-    setIsLiked(!isLiked);
-  };
 
   const PodcastCard = ({ item }) => {
     return (
@@ -191,9 +187,7 @@ export default function Search(props) {
             })}
             className="seasons"
           />
-          <Button onClick={() => handleLike(item.id)}>
-            {isLiked ? "Unlike" : "Like"}
-          </Button>
+
         </Box>
       </Card>
     );
