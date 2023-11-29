@@ -23,7 +23,7 @@ const Widget = styled("div")(({ theme }) => ({
   borderRadius: 16,
   width: "850px",
   margin: "auto",
-
+  backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#fff",
   boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
   flex: "0 1 auto",
   minWidth: 0,
@@ -156,7 +156,6 @@ export default function PodCastPlayer(props) {
     setExpanded(false);
     setEpisode(null);
   };
-
   return (
     <Box sx={{ width: "100%", overflow: "hidden" }}>
       <Widget>
@@ -168,7 +167,7 @@ export default function PodCastPlayer(props) {
             alignItems: "center",
           }}
         >
-          <Typography variant="caption" color="text.secondary" fontWeight={500}>
+          <Typography variant="h5" color="text.secondary" fontWeight={500}>
             {selectedPodcast?.title}
           </Typography>
           <CoverImage
@@ -201,11 +200,16 @@ export default function PodCastPlayer(props) {
             )}
           </IconButton>
 
-          <Box sx={{ ml: 1.5, minWidth: 0 }}>
-            <Typography noWrap>{episode?.title}</Typography>
-            <Typography variant="caption" noWrap letterSpacing={-0.25}>
-              {episode?.description}
-            </Typography>
+          <Box sx={{ ml: 1.5, minWidth: 0 , mb: 2 }}>
+          {selectedPodcast && (
+                <>
+                  <Typography>Now playing</Typography>
+                  <Typography noWrap>{episode?.title}</Typography>
+                  <Typography variant="caption" letterSpacing={-0.25}>
+                    {episode?.description}
+                  </Typography>
+                </>
+              )}
           </Box>
         </Box>
 
@@ -265,7 +269,7 @@ export default function PodCastPlayer(props) {
                               onClick={() => handleEpisodeClick(episode)}
                             >
                               <CardContent>
-                                Episode {episodeIndex + 1}
+                                Episode {episodeIndex ? episodeIndex + 1 : "-"}
                                 <Typography variant="subtitle1">
                                   {episode.title}
                                 </Typography>
