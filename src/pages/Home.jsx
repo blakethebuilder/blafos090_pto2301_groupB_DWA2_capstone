@@ -10,26 +10,21 @@
  * @param {Function} props.setEpisode - The function to set the episode.
  * @return {JSX.Element} The Home component.
  */
-
-import { useEffect, useState } from "react";
-
-import "../styles/App.css";
-import "../styles/index.css";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
-
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
-
+import Tooltip from "@mui/material/Tooltip";
 import PropTypes from "prop-types";
-
 import { styled } from "@mui/material/styles";
+import Button from "@mui/material/Button";
 
 import Search from "../components/search";
 import getUserData from "../components/getUserData.js";
-
-import Button from "@mui/material/Button";
-
 import PodCastPlayer from "../components/podcastPlayer.jsx";
 import Likes from "./Likes.jsx";
+
+import "../styles/App.css";
+import "../styles/index.css";
+
 
 Home.propTypes = {
   allPodcastData: PropTypes.any, // Add the prop type validation for allPodcastData
@@ -38,32 +33,7 @@ Home.propTypes = {
   setUser: PropTypes.any,
 };
 
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: "#f5f5f9",
-    color: "rgba(0, 0, 0, 0.87)",
-    maxWidth: 450,
-    fontSize: theme.typography.pxToRem(12),
-    border: "1px solid #dadde9",
-    borderRadius: "20px",
-  },
-}));
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "100vh",
-  bgcolor: "background.paper",
-
-  boxShadow: 24,
-  p: 4,
-  color: "black",
-  borderRadius: "50px",
-};
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -131,8 +101,6 @@ export default function Home(props) {
     console.log(allPodcastData);
   }, [allPodcastData]);
 
-  const handleOpen = () => setModalOpen(true);
-  const handleClose = () => setModalOpen(false);
 
   const handlePodcastClick = (pod) => {
     console.log("Podcast clicked:", pod);
@@ -145,10 +113,6 @@ export default function Home(props) {
     "aria-controls": `simple-tabpanel-${index}`,
   });
 
-  const handleChange = (event, newValue) => {
-    // Ensure newValue is within the valid range of tab indices
-    setValue(Math.min(Math.max(newValue, 0), modalData.seasons.length - 1));
-  };
 
   async function logout() {
     try {
@@ -170,6 +134,7 @@ export default function Home(props) {
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
+        width: "100%",
       }}
     >
       {user ? (

@@ -1,23 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import fetchPodcastData from '../assets/fetchSupa'; // Adjust the path accordingly
 
+import { useParams } from 'react-router-dom'; // Import the useParams hook
 
 
-
-const Likes = ({ match }) => {
+const Likes = () => {
+  const { id } = useParams(); // Use the useParams hook to get the route parameters
   const [podcastData, setPodcastData] = useState(null);
-  const podcastId = match?.params.id; // Assuming you have a route parameter for the podcast ID
 
   useEffect(() => {
-    if (podcastId) {
+    if (id) {
       const fetchData = async () => {
-        const data = await fetchPodcastData(podcastId);
+        const data = await fetchPodcastData(id);
         setPodcastData(data);
+        console.log(`Podcast data1:`, data)
+        console.log(`Podcast data2:`, podcastData)
       };
 
       fetchData();
     }
-  }, [podcastId]);
+  }, [id]);
 
   if (!podcastData) {
     return <div>Save your likes here </div>;
@@ -33,3 +35,4 @@ const Likes = ({ match }) => {
 };
 
 export default Likes;
+

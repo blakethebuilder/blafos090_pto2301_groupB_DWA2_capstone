@@ -24,9 +24,9 @@ export default function Landing() {
         pb: 1,
       }}
     >
-      <Container>
+      <Container maxWidth="md">
         <Typography component="h1" variant="h3" align="center" color="primary">
-          Welcome to,
+          Welcome to
         </Typography>
 
         {

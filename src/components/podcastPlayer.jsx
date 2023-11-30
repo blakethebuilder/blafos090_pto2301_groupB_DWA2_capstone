@@ -7,6 +7,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@mui/material/IconButton";
 import logo from "../assets/Devcast-orange.png";
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -48,14 +49,15 @@ const CoverImage = styled("div")({
 });
 
 const EpisodesContainer = styled("div")({
-  alignItems: "center",
-  overflowY: "scroll",
+  display: 'flex',
+  flexWrap: 'wrap',
   gap: 10,
-  maxHeight: "50vh",
-  width: "100%",
-  margin: "auto",
-  cursor: "pointer",
+  overflowX: 'auto',
+  maxWidth: '100%',
+  justifyContent: 'center',
+  alignItems: 'center',
 });
+
 
 export default function PodCastPlayer(props) {
   const initialPodcastValue = {
@@ -159,12 +161,21 @@ export default function PodCastPlayer(props) {
   return (
     <Box sx={{ width: "100%", overflow: "hidden" }}>
       <Widget>
-        <Button onClick={handleClearState}>Clear Player</Button>
+      {selectedPodcast !== null && <Button onClick={handleClearState}>Clear Player</Button>}
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
+            justifyContent: "center",
+            gap: 1,
+            width: "100%",
+            height: "100%",
+            p: 2,
+            position: "relative",
+            border: "1px solid",
+            borderColor: "divider", 
+            borderRadius: 5,
           }}
         >
           <Typography variant="h5" color="text.secondary" fontWeight={500}>
@@ -239,8 +250,7 @@ export default function PodCastPlayer(props) {
                       border: "1px solid #ccc",
                       borderRadius: 10,
                       minWidth: 100,
-                      whiteSpace: "nowrap",
-                      overflow: "auto",
+              
                       textOverflow: "ellipsis",
                     }}
                   />
@@ -267,6 +277,12 @@ export default function PodCastPlayer(props) {
                             <Card
                               key={episodeIndex}
                               onClick={() => handleEpisodeClick(episode)}
+                              sx={{
+                                cursor: "pointer",
+                                mb: 2,
+                                width: "100%",
+                                maxWidth: 300,
+                              }}
                             >
                               <CardContent>
                                 Episode {episodeIndex ? episodeIndex + 1 : "-"}
@@ -276,6 +292,7 @@ export default function PodCastPlayer(props) {
                                 <Typography variant="body2">
                                   {episode.description}
                                 </Typography>
+                                <PlayArrowIcon sx={{ color: "primary.main", mt: 1, scale: 3 }} />
                               </CardContent>
                             </Card>
                           )

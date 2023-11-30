@@ -13,7 +13,7 @@ import Fuse from "fuse.js";
 import { useState, useEffect, useMemo } from "react";
 import IconButton from "@mui/material/IconButton";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import SearchIcon from "@mui/icons-material/Search";
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import TextField from "@mui/material/TextField";
 import {
   Card,
@@ -23,11 +23,30 @@ import {
   Grid,
   Chip,
   Collapse,
+  Select, MenuItem
 } from "@mui/material";
 
 import genres from "../assets/genres";
 
-import { Select, MenuItem } from "@mui/material";
+
+import PropTypes from 'prop-types';
+
+
+Search.propTypes = {
+  allPodcastData: PropTypes.array.isRequired,
+  setSelectedPodcast: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  searchTerm: PropTypes.string.isRequired,
+  setResults: PropTypes.func.isRequired,
+  error: PropTypes.object,
+  selectedGenre: PropTypes.string.isRequired,
+  setSelectedGenre: PropTypes.func.isRequired,
+  isSearchBoxOpen: PropTypes.bool.isRequired,
+  handleToggleSearchBox: PropTypes.func.isRequired,
+  sortOption: PropTypes.string.isRequired,
+  setSortOption: PropTypes.func.isRequired,
+};
 
 export default function Search(props) {
   const { allPodcastData, setSelectedPodcast, loading, setLoading } = props;
@@ -85,9 +104,9 @@ export default function Search(props) {
   useEffect(() => {
     const handleSearch = async () => {
       setLoading(true);
-
+  
       try {
-        if (allPodcastData) {
+        if (allPodcastData && searchTerm.trim() !== "") {
           const filteredResults = fuse.search(searchTerm);
           setResults(filteredResults);
           console.log(`Search results:`, filteredResults);
@@ -101,9 +120,10 @@ export default function Search(props) {
         setLoading(false);
       }
     };
-
+  
     handleSearch();
   }, [allPodcastData, searchTerm, fuse, setLoading]);
+  
 
   const fetchPodcastData = (id) => {
     setLoading(true);
@@ -244,7 +264,7 @@ export default function Search(props) {
           InputProps={{
             endAdornment: (
               <IconButton onClick={() => setSearchTerm("")}>
-                <SearchIcon />
+                <DeleteSweepIcon />
               </IconButton>
             ),
           }}
@@ -299,14 +319,14 @@ export default function Search(props) {
           </Box>
 
           {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : searchTerm ? (
-            cardsGrid
-          ) : (
-            allCardsGrid
-          )}
+  <p>Loading...</p>
+) : error ? (
+  <p>{error}</p>
+) : searchTerm.trim() !== "" ? (
+  cardsGrid
+) : (
+  allCardsGrid
+)}
         </Collapse>
       </form>
     </Box>

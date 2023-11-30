@@ -19,15 +19,12 @@ import LoginIcon from '@mui/icons-material/Login';
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 
-import Fab from "@mui/material/Fab";
-import { styled } from "@mui/system";
-import logo from "./assets/Devcast-white.png";
-
 import Home from "./pages/Home";
 import Success from "./pages/Success";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import ErrorPage from "./pages/ErrorPage";
+import Likes from './pages/Likes';
 
 
 import AudioPlayer from "react-h5-audio-player";
@@ -84,23 +81,25 @@ export default function App() {
           <Toolbar className="toolbar">
   
 
-            <NavLink
-              to="/home"
-              className="nav-link"
-              activeClassName="active-link"
-              exact
-            >
-            <HomeIcon />
-            </NavLink>
+          <NavLink
+  to="/home"
+  className="nav-link"
+  activeClassName="active-link"
+  exact
+  sx={{ fontSize: { xs: 20, md: 30 } }}
+>
+  <HomeIcon />
+</NavLink>
 
-            <NavLink
-              to="/login"
-              className="nav-link"
-              activeClassName="active-link"
-              exact
-            >
-              <LoginIcon/>
-            </NavLink>
+<NavLink
+  to="/login"
+  className="nav-link"
+  activeClassName="active-link"
+  exact
+  sx={{ fontSize: { xs: 20, md: 30 } }}
+>
+  <LoginIcon/>
+</NavLink>
 
             <IconButton
               onClick={toggleMode}
@@ -139,6 +138,7 @@ export default function App() {
               />
             }
           />
+          <Route path="/likes/:id" component={Likes} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
 

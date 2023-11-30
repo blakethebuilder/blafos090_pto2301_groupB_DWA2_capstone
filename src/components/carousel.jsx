@@ -40,31 +40,33 @@ function PodcastCarousel() {
 
     fetchData();
   }, []);
-
   return (
-    <Carousel
-      swipeable={true}
-      draggable={false}
-      showDots={true}
-      responsive={responsive}
-
-      infinite={true}
-
-     customTransition="all .5"
-
-      containerClass="carousel-container"
-      removeArrowOnDeviceType={["tablet", "mobile"]}
-      deviceType="desktop" // Assuming default to desktop if not specified
-      dotListClass="custom-dot-list-style"
-      itemClass="carousel-item-padding-40-px"
-    >
-      {content.map((podcast, index) => (
-        <div key={index}>
-          <img src={podcast.image} alt={podcast.title} style={{ borderRadius: "10px" , width: "150px" , height: "150px" }} />
-          <p>{podcast.title}</p>
-        </div>
-      ))}
-    </Carousel>
+    <div className="carousel-container" style={{ maxWidth: "100%" }}>
+      <Carousel
+        swipeable={true}
+        draggable={false}
+        showDots={true}
+        responsive={responsive}
+        infinite={true}
+        customTransition="all .5"
+        containerClass="carousel-container"
+        removeArrowOnDeviceType={["tablet", "mobile"]}
+        deviceType="desktop"
+        dotListClass="custom-dot-list-style"
+        itemClass="carousel-item-padding-40-px"
+      >
+        {content.map((podcast, index) => (
+          <div key={index}>
+            <img
+              src={podcast.image}
+              alt={podcast.title}
+              style={{ borderRadius: "20px", width: "50%", height: "auto" }}
+            />
+            <p>{podcast.title}</p>
+          </div>
+        ))}
+      </Carousel>
+    </div>
   );
 }
 
