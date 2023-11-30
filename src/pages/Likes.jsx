@@ -13,10 +13,13 @@ const Likes = () => {
       const fetchData = async () => {
         const data = await fetchPodcastData(id);
         setPodcastData(data);
-        console.log(`Podcast data1:`, data)
-        console.log(`Podcast data2:`, podcastData)
+        console.log('Podcast data1:', data);
+        setPodcastData(prevData => {
+          console.log('Podcast data2:', prevData);
+          return prevData;
+        });
       };
-
+  
       fetchData();
     }
   }, [id]);

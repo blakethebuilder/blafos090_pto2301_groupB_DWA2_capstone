@@ -20,7 +20,9 @@ const responsive = {
   }
 };
 
-function PodcastCarousel() {
+function PodcastCarousel(props ) {
+
+
   const [content, setContent] = useState([]);
 
   useEffect(() => {
@@ -32,12 +34,14 @@ function PodcastCarousel() {
         }
         const data = await response.json();
         setContent(data);
+       
         console.log(data);
       } catch (error) {
         console.error("Error fetching podcast data:", error);
+
       }
     };
-
+  
     fetchData();
   }, []);
   return (
