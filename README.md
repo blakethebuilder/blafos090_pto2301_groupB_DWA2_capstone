@@ -1,10 +1,10 @@
-# React + Vite + Blakethebuilder
+# Devcast - Codespace 2023 Capstone Project
 
-This template provides a minimal setup to get React working in Vite, with additional dependencies curated by Blakethebuilder for a smooth development experience.
+**Devcast** is the Capstone project for the Codespace 2023 part-time course, representing Blake Foster's submission.
 
 ## Dependencies
 
-This template includes the following installed dependencies:
+This project includes carefully chosen dependencies for an efficient development experience:
 
 - **@emotion/react** v11.11.1
 - **@emotion/styled** v11.11.0
@@ -45,8 +45,8 @@ This template includes the following installed dependencies:
 
 ## Additional Information
 
-- This template provides a solid starting point for React development with Vite, incorporating Blakethebuilder's preferred dependencies.
-- Customize and expand upon this template to suit your project requirements.
-- Refer to each dependency's documentation for more detailed information on usage and configurations.
+- Devcast serves as Blake Foster's submission for the Codespace 2023 part-time course Capstone project.
+- Use this project as a foundation for your React development with Vite, tailored to Blake's preferences.
+- Customize and extend this template according to your project's specific requirements.
+- Refer to the documentation of each dependency for comprehensive details on usage and configurations.
 
-Feel free to reach out if you have any questions or encounter issues. Happy coding!
