@@ -5,17 +5,16 @@
  * @return {JSX.Element} The rendered application.
  */
 
-
 import { NavLink, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./styles/App.css";
-import "./styles/index.css";
+
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import { Slide, useScrollTrigger } from "@mui/material";
-import HomeIcon from '@mui/icons-material/Home';
-import LoginIcon from '@mui/icons-material/Login';
+import HomeIcon from "@mui/icons-material/Home";
+import LoginIcon from "@mui/icons-material/Login";
 
 import LightModeIcon from "@mui/icons-material/LightMode";
 
@@ -24,8 +23,7 @@ import Success from "./pages/Success";
 import Login from "./pages/Login";
 import Landing from "./pages/Landing";
 import ErrorPage from "./pages/ErrorPage";
-import Likes from './pages/Likes';
-
+import Likes from "./pages/Likes";
 
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
@@ -36,13 +34,15 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [episode, setEpisode] = useState(null);
 
-  const toggleMode = () => {
-    setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+  const toggleDarkMode = () => {
+    setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
-
+  
   useEffect(() => {
-    // Any global initialization logic can be placed here
-  }, []);
+    // Apply the mode class to the body element
+    document.body.classList.remove("light", "dark");
+    document.body.classList.add(mode);
+  }, [mode]);
 
   function HideOnScroll(props) {
     const { children } = props;
@@ -64,7 +64,7 @@ export default function App() {
       style={{
         width: "100%",
         borderRadius: "10px",
-       
+
         /* add more styles here */
       }}
       className="custom-audio-player"
@@ -79,30 +79,28 @@ export default function App() {
           sx={{ borderRadius: 5, marginBottom: 5 }}
         >
           <Toolbar className="toolbar">
-  
+            <NavLink
+              to="/home"
+              className="nav-link"
+              activeclassname="active-link"
+              exact
+              sx={{ fontSize: { xs: 20, md: 30 } }}
+            >
+              <HomeIcon />
+            </NavLink>
 
-          <NavLink
-  to="/home"
-  className="nav-link"
-  activeClassName="active-link"
-  exact
-  sx={{ fontSize: { xs: 20, md: 30 } }}
->
-  <HomeIcon />
-</NavLink>
-
-<NavLink
-  to="/login"
-  className="nav-link"
-  activeClassName="active-link"
-  exact
-  sx={{ fontSize: { xs: 20, md: 30 } }}
->
-  <LoginIcon/>
-</NavLink>
+            <NavLink
+              to="/login"
+              className="nav-link"
+              activeclassname="active-link"
+              exact
+              sx={{ fontSize: { xs: 20, md: 30 } }}
+            >
+              <LoginIcon />
+            </NavLink>
 
             <IconButton
-              onClick={toggleMode}
+              onClick={toggleDarkMode}
               size="large"
               edge="start"
               color="inherit"
@@ -153,16 +151,14 @@ export default function App() {
                 top: "auto",
                 bottom: 0,
                 maxHeight: 650,
-                backgroundColor: '#ffffff',
+                backgroundColor: "#ffffff",
               }}
             >
               <Toolbar className="bottom-toolbar">
-   
-                        <Player episode={episode} />
+                <Player episode={episode} />
               </Toolbar>
             </AppBar>
           </HideOnScroll>
-          
         </footer>
       </main>
     </div>

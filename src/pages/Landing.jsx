@@ -15,13 +15,17 @@ import logo from "../assets/Devcast-orange.png";
 
 import Carousel from "../components/carousel";
 
-
 export default function Landing() {
   return (
     <Box
       sx={{
         pt: 2,
         pb: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center", // Center the content horizontally
       }}
     >
       <Container maxWidth="md">
@@ -34,7 +38,11 @@ export default function Landing() {
             className="logo"
             src={logo}
             alt="Devcast Logo"
-            style={{ maxWidth: "100%", height: "auto" }}
+            style={{
+              marginBottom: "20px",
+              marginTop: "20px",
+              maxWidth: "100%",
+            }}
           />
         }
         <Carousel />

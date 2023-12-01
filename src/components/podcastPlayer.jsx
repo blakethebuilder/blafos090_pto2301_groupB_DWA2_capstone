@@ -1,4 +1,3 @@
-import * as React from "react";
 import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -7,7 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import IconButton from "@mui/material/IconButton";
 import logo from "../assets/Devcast-orange.png";
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 import Tab from "@mui/material/Tab";
 import Tabs from "@mui/material/Tabs";
@@ -22,17 +21,13 @@ const supabase = getSupabase();
 const Widget = styled("div")(({ theme }) => ({
   padding: 16,
   borderRadius: 16,
-  width: "850px",
+  width: "80vw",
+  maxWidth: "100%",
   margin: "auto",
-  backgroundColor: theme.palette.mode === "dark" ? "#1a1a1a" : "#fff",
-  boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-  flex: "0 1 auto",
-  minWidth: 0,
-  [theme.breakpoints.down("sm")]: {
-    flex: "1 1 0%",
-    maxWidth: "100%",
-    overflow: "hidden",
-  },
+  backgroundColor: "rgba(255, 69, 0, 0.1)",
+  color: "#333",
+
+  minWidth: 200,
 }));
 
 const CoverImage = styled("div")({
@@ -41,23 +36,17 @@ const CoverImage = styled("div")({
   objectFit: "cover",
   overflow: "hidden",
   flexShrink: 0,
-  borderRadius: 8,
-  backgroundColor: "rgba(0,0,0,0.08)",
-  "& > img": {
-    width: "100%",
-  },
+  borderRadius: 200,
 });
-
 const EpisodesContainer = styled("div")({
-  display: 'flex',
-  flexWrap: 'wrap',
+  display: "flex",
+  flexWrap: "wrap",
   gap: 10,
-  overflowX: 'auto',
-  maxWidth: '100%',
-  justifyContent: 'center',
-  alignItems: 'center',
+  overflowX: "auto",
+  maxWidth: "100%",
+  justifyContent: "center",
+  alignItems: "center",
 });
-
 
 export default function PodCastPlayer(props) {
   const initialPodcastValue = {
@@ -159,23 +148,46 @@ export default function PodCastPlayer(props) {
     setEpisode(null);
   };
   return (
-    <Box sx={{ width: "100%", overflow: "hidden" }}>
+    <Box
+      className="player"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 1,
+        width: "100%",
+        height: "100%",
+        p: 2,
+        position: "relative",
+        border: "1px solid",
+        borderColor: "divider",
+        borderRadius: 5,
+      }}
+    >
       <Widget>
-      {selectedPodcast !== null && <Button onClick={handleClearState}>Clear Player</Button>}
+        {selectedPodcast !== null && (
+          <Button onClick={handleClearState} sx={{ marginTop: 2 }}>
+            Clear Player
+          </Button>
+        )}
+
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
+
             gap: 1,
             width: "100%",
             height: "100%",
-            p: 2,
+
             position: "relative",
             border: "1px solid",
-            borderColor: "divider", 
+            borderColor: "divider",
             borderRadius: 5,
+            mb: 2,
           }}
         >
           <Typography variant="h5" color="text.secondary" fontWeight={500}>
@@ -188,39 +200,64 @@ export default function PodCastPlayer(props) {
               alignItems: "center",
             }}
           >
-            {selectedPodcast ? (
-              <img
-                alt={selectedPodcast.title}
-                src={selectedPodcast.image}
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
+            {loading ? (
+              <p>Loading...</p> // You can replace this with your loading indicator or component
             ) : (
-              <img
-                className="logo"
-                src={logo}
-                alt="Devcast Logo"
-                style={{ maxWidth: "100%", height: "auto" }}
-              />
+              <div>
+                {selectedPodcast ? (
+                  <img
+                    alt={selectedPodcast.title}
+                    src={selectedPodcast.image}
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
+                ) : (
+                  <img
+                    className="logo"
+                    src={logo}
+                    alt="Devcast Logo"
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
+                )}
+              </div>
             )}
           </CoverImage>
-          <IconButton onClick={handleLike}>
-            {selectedPodcast && selectedPodcast.liked ? (
-              <FavoriteIcon color="primary" />
-            ) : (
-              <FavoriteBorderIcon color="primary" />
-            )}
-          </IconButton>
-
-          <Box sx={{ ml: 1.5, minWidth: 0 , mb: 2 }}>
           {selectedPodcast && (
-                <>
-                  <Typography>Now playing</Typography>
-                  <Typography noWrap>{episode?.title}</Typography>
-                  <Typography variant="caption" letterSpacing={-0.25}>
-                    {episode?.description}
-                  </Typography>
-                </>
+            <IconButton onClick={handleLike} sx={{ mt: 1 }}>
+              {selectedPodcast.liked ? (
+                <FavoriteIcon color="primary" />
+              ) : (
+                <FavoriteBorderIcon color="primary" />
               )}
+            </IconButton>
+          )}
+
+          <Box
+            className="now-playing"
+            sx={{
+              ml: 1.5,
+              minWidth: 0,
+              mb: 2,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 1,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "100%",
+              padding: 2,
+              borderRadius: 4,
+            }}
+          >
+            {selectedPodcast && (
+              <>
+                <Typography>Now playing</Typography>
+                <Typography noWrap>{episode?.title}</Typography>
+                <Typography variant="caption" letterSpacing={-0.25}>
+                  {episode?.description}
+                </Typography>
+              </>
+            )}
           </Box>
         </Box>
 
@@ -233,7 +270,7 @@ export default function PodCastPlayer(props) {
               "& .MuiTabs-indicator": {
                 display: "contents",
               },
-              mb: 2,
+              m: 2,
             }}
           >
             {selectedPodcast && selectedPodcast.seasons
@@ -249,9 +286,7 @@ export default function PodCastPlayer(props) {
                       padding: "8px 16px",
                       border: "1px solid #ccc",
                       borderRadius: 10,
-                      minWidth: 100,
-              
-                      textOverflow: "ellipsis",
+                      minWidth: "100px",
                     }}
                   />
                 ))
@@ -282,6 +317,13 @@ export default function PodCastPlayer(props) {
                                 mb: 2,
                                 width: "100%",
                                 maxWidth: 300,
+                                transition: "transform 0.3s ease", // Add a transition effect
+                                "&:hover": {
+                                  transform: "scale(1.05)", // Increase size on hover
+                                },
+                                "&:active": {
+                                  transform: "scale(0.95)", // Decrease size when clicked
+                                },
                               }}
                             >
                               <CardContent>
@@ -292,7 +334,13 @@ export default function PodCastPlayer(props) {
                                 <Typography variant="body2">
                                   {episode.description}
                                 </Typography>
-                                <PlayArrowIcon sx={{ color: "primary.main", mt: 1, scale: 3 }} />
+                                <PlayArrowIcon
+                                  sx={{
+                                    color: "primary.main",
+                                    mt: 1,
+                                    scale: 3,
+                                  }}
+                                />
                               </CardContent>
                             </Card>
                           )

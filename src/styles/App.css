@@ -1,124 +1,116 @@
 /* Color Variables */
 :root {
-  --primary-bg: #242424;
-  --primary-text: #fff;
-  --secondary-bg: #fff;
-  --secondary-text: #242424;
+  --primary-bg: #ff4500; /* Orange */
+  --primary-text: #fff; /* White */
+  --secondary-bg: #ffffff; /* White */
+  --secondary-text: #242424; /* Dark gray for better contrast */
+  --tertiary-bg: #00ff80; /* Green */
+  --quaternary-bg: #8000ff; /* Purple */
+
+  font-family: Inter, system-ui, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: var(--primary-text);
+  background-color: #242424;
+
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Root Styles */
-#root {
-  max-width: 1200px; /* Adjust as needed */
-  margin: 0 auto;
+body {
+  display: block;
+  min-width: 320px;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+  
+}
+.navbar2 {
+
+  color: var(--secondary-text);
   text-align: center;
-  width: 100%;
+  padding: 20px;
+  display: flex;  
+  justify-content: center;
+  align-items: center;
+  
+
 }
 
-/* Logo Styles */
-.logo {
-  height: 3em;
-  width: 50%; /* Adjust as needed */
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 0.3s ease; /* Add transition effect */
-}
-
-.logo:hover {
-  filter: drop-shadow(0 0 2em #FF914D);
-}
 
 /* Navbar Styles */
 .navbar {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap; /* Allow items to wrap to a new line */
-}
+  background-color: var(--primary-bg);
+  color: var(--primary-text);
 
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+
+}
 .nav-link {
-  color: inherit;
-  text-decoration: none;
   padding: 8px 16px;
-  border: 1px solid #fff;
+  border: 1px solid var(--primary-text);
   border-radius: 10px;
   margin-right: 10px;
-  transition: background-color 0.3s ease; 
-  align-items: center;
-  justify-content: center;
-  display: flex;
+  transition: background-color 0.3s ease;
 }
 
-.nav-link:hover {
-  background-color: #fff;
-  color: #000;
-}
-
+.nav-link:hover,
 .active-link {
-  background-color: #fff;
-  color: #000;
+  background-color: var(--secondary-text);
+  color: var(--primary-bg);
 }
 
 /* Login Page Styles */
 .login-page {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  padding: 0 20px; /* Add padding as needed */
-  color: #000;
+  width: 100vw;
+  max-width: 350px;
+  padding: 5%; 
+  margin: 0 auto;
 }
 
-/* Header Styles */
-.app-header {
-  position: sticky;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
+/* Logo Styles */
 .logo {
   height: 3em;
-  max-width: 100%; /* Ensure the logo doesn't exceed its container */
-  will-change: filter;
+  max-width: 100%;
+
+  transition: filter 0.3s ease;
 }
-/* Theme Styles */
-.app.light {
-  background-color: var(--secondary-bg);
-  color: var(--secondary-text);
-
-  button,
-  .navbar a {
-    color: var(--secondary-text);
-  }
-
-  .navbar a:hover {
-    color: var(--primary-text);
-  }
-
-  .navbar .active-link,
-  .login-page,
-  .text-field {
-    color: var(--secondary-text);
-  }
+.logo:hover {
+  filter: drop-shadow(0 0 2em rgba(255, 165, 0, 0.5)); /* Orange shadow on hover */
 }
 
-.app.dark {
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
-
-  .text-field {
-    color: var(--primary-text);
-  }
+/* Box Shadows */
+.navbar,
+.login-page,
+.logo,
+.nav-link,
+.bottom-navbar {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 320px) {
+/* Responsive Styles */
+@media (max-width: 600px) {
   .navbar {
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
-    width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 15px;
+
+
+    
+   
+
+  }
+ 
   }
 
   .nav-link {
@@ -126,12 +118,72 @@
     box-sizing: border-box;
     margin-bottom: 8px;
   }
-
-  .login-page {
-    padding: 0 10px; /* Adjust padding as needed */
-  }
-
-  
 }
+
 .bottom-navbar {
-  background-color: var(--secondary-bg); 
+  background-color: var(--secondary-bg);
+  /* Add additional styling if needed */
+}
+
+/* Additional Styles from index.css */
+a {
+  font-weight: 500;
+  color: #f9f9f9;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}

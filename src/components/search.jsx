@@ -13,6 +13,7 @@ import Fuse from "fuse.js";
 import { useState, useEffect, useMemo } from "react";
 import IconButton from "@mui/material/IconButton";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import TextField from "@mui/material/TextField";
 import {
@@ -32,21 +33,7 @@ import genres from "../assets/genres";
 import PropTypes from 'prop-types';
 
 
-Search.propTypes = {
-  allPodcastData: PropTypes.array.isRequired,
-  setSelectedPodcast: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  setLoading: PropTypes.func.isRequired,
-  searchTerm: PropTypes.string.isRequired,
-  setResults: PropTypes.func.isRequired,
-  error: PropTypes.object,
-  selectedGenre: PropTypes.string.isRequired,
-  setSelectedGenre: PropTypes.func.isRequired,
-  isSearchBoxOpen: PropTypes.bool.isRequired,
-  handleToggleSearchBox: PropTypes.func.isRequired,
-  sortOption: PropTypes.string.isRequired,
-  setSortOption: PropTypes.func.isRequired,
-};
+
 
 export default function Search(props) {
   const { allPodcastData, setSelectedPodcast, loading, setLoading } = props;
@@ -140,10 +127,7 @@ export default function Search(props) {
       });
   };
 
-  const handleGenreClick = (genre) => {
-    setSelectedGenre(genre);
-    // You can add additional functionality here if needed
-  };
+
 
   const handleSearchButtonClick = () => {
     // Use fuse to perform the search
@@ -235,20 +219,24 @@ export default function Search(props) {
 
   return (
     <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "50px",
-        padding: "10px",
-        gap: "10px",
-        width: "80%",
-        margin: "auto",
-      }}
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      borderRadius: "50px",
+      padding: "10px",
+      gap: "10px",
+      width: "90%",
+      margin: "auto",
+      alignItems: "center",
+    }}
     >
+      <Box>
+        
+      </Box>
       <form id="search-form" noValidate autoComplete="off">
         <TextField
           sx={{
-            width: "85%",
+            width: "100%",
             mb: 5,
             backgroundColor: "#f5f5f5",
           }}
@@ -274,7 +262,7 @@ export default function Search(props) {
           value={selectedGenre}
           onChange={(e) => setSelectedGenre(e.target.value)}
           variant="standard"
-          sx={{ width: 200, ml: 3 }}
+          sx={{ width: "100%", ml: 3 }}
         >
           <MenuItem value="">All Genres</MenuItem>
           {Object.entries(genres).map(([id, name]) => (
@@ -283,11 +271,22 @@ export default function Search(props) {
             </MenuItem>
           ))}
         </Select>
+        </form>
         <IconButton onClick={handleToggleSearchBox}>
-          <ArrowDownwardIcon label="Search" />
-        </IconButton>
+        {isSearchBoxOpen ? (
+          <>
+            <ArrowUpwardIcon label="Minimize" />
+            <Typography variant="h6">Minimize</Typography>
+          </>
+        ) : (
+          <>
+            <ArrowDownwardIcon label="Expand" />
+            <Typography variant="h6">Expand</Typography>
+          </>
+        )}
+      </IconButton>
         <Collapse in={isSearchBoxOpen} timeout="auto" unmountOnExit>
-          <Box>
+
             <Box
               sx={{
                 display: "flex",
@@ -316,8 +315,7 @@ export default function Search(props) {
                 <MenuItem value="dateDesc">Date Desc</MenuItem>
               </Select>
             </Box>
-          </Box>
-
+ 
           {loading ? (
   <p>Loading...</p>
 ) : error ? (
@@ -328,7 +326,7 @@ export default function Search(props) {
   allCardsGrid
 )}
         </Collapse>
-      </form>
+
     </Box>
   );
 }

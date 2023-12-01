@@ -16,6 +16,8 @@ import getUserData from '../components/getUserData';
 
 import getSupabase  from "../assets/api";
 
+import logo from "../assets/Devcast-orange.png";
+
 const supabase = getSupabase();
 
 
@@ -54,6 +56,12 @@ export default function Login(props) {
 
   return (
     <div className="login-page">
+                <img
+            className="logo"
+            src={logo}
+            alt="Devcast Logo"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
       <Auth
         supabaseClient={supabase}
         providers={['discord', 'google']}

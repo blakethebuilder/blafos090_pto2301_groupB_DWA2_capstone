@@ -4,7 +4,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { createBrowserRouter, RouterProvider, Routes, Route } from "react-router-dom";
 
 import "./styles/App.css";
-import "./styles/index.css";
+
 
 // Pages
 import Landing from "./pages/Landing";
