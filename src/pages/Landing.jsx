@@ -42,6 +42,7 @@ export default function Landing() {
               marginBottom: "20px",
               marginTop: "20px",
               maxWidth: "100%",
+              height: "auto",
             }}
           />
         }
