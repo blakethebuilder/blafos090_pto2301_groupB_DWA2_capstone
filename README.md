@@ -1,10 +1,15 @@
-# Devcast - Codespace 2023 Capstone Project
+# Devcast - Capstone Project (Blake Foster)
 
-**Devcast** is the Capstone project for the Codespace 2023 part-time course, representing Blake Foster's submission.
+Welcome to the repository for Blake Foster's Capstone project, developed as part of the Codespace 2023 part-time course. The project, named **Devcast**, is a representation of Blake's efforts and creativity in the field.
+
+## Project Details
+
+- **Student Code:** blafos090_pto2301_groupB_DWA2_capstone
+- **Deployment Link:** [Devcast Deployment](https://cute-choux-db8507.netlify.app/)
 
 ## Dependencies
 
-This project includes carefully chosen dependencies for an efficient development experience:
+To ensure an efficient development experience, this project utilizes carefully selected dependencies:
 
 - **@emotion/react** v11.11.1
 - **@emotion/styled** v11.11.0
@@ -20,33 +25,8 @@ This project includes carefully chosen dependencies for an efficient development
 - **react-router-dom** v6.19.0
 - **sort-by** v0.0.2
 
-## How to Use
-
-1. **Clone the Repository:**
-   ```bash
-   git clone <repository-url>
-   cd <project-folder>
-   ```
-
-2. **Install Dependencies:**
-   ```bash
-   npm install
-   ```
-
-3. **Run the Development Server:**
-   ```bash
-   npm run dev
-   ```
-
-4. **Build for Production:**
-   ```bash
-   npm run build
-   ```
 
 ## Additional Information
 
-- Devcast serves as Blake Foster's submission for the Codespace 2023 part-time course Capstone project.
-- Use this project as a foundation for your React development with Vite, tailored to Blake's preferences.
-- Customize and extend this template according to your project's specific requirements.
-- Refer to the documentation of each dependency for comprehensive details on usage and configurations.
-
+- Devcast is Blake Foster's submission for the Codespace 2023 part-time course Capstone project.
+- For comprehensive details on usage and configurations, refer to the documentation of each dependency.
